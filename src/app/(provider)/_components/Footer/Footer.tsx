@@ -18,8 +18,8 @@ const Footer = () => {
           </Link>
         </span>
       </div>
-      <p className="mt-4 text-sm">inhwa.jeon</p>
-      <p className="mt-1 text-sm">
+      <p className="mt-4 text-sm text-gray600">inhwa.jeon</p>
+      <p className="mt-1 text-sm text-gray600">
         Copyright 2024. HELPME. All right reserved.
       </p>
     </footer>
