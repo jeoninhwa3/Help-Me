@@ -13,7 +13,7 @@ const config: Config = {
         foreground: "var(--foreground)",
       },
       minHeight: {
-        "main-height": "calc(100vh - 132px)",
+        "main-height": "calc(100vh - 188px)",
       },
     },
   },
