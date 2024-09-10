@@ -9,8 +9,33 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        gray300: "#D5D6D8",
+        gray500: "#95989D",
+        gray600: "#76797F",
+        gray800: "#404145",
+        gray900: "#27282A",
+        primary600: "#F5637C",
+        backgroundInfo: "#1E87FF",
+        backgroundError: "#E52030 ",
+      },
+      borderColor: {
+        gray100: "#F1F2F2",
+        gray200: "#E4E5E7",
+        gray300: "#D5D6D8",
+        gray400: "#B7B9BD",
+        gray600: "#76797F",
+        primary500: "#FF7A85",
+        secondary600: "#49BA43",
+      },
+      backgroundColor: {
+        gray100: "#F1F2F2",
+        gray200: "#e4e5e7",
+        pramary100: "#FFF6F2",
+        pramary500: "#FF7A85",
+        pramary600: "#F5637C",
+      },
+      minHeight: {
+        "main-height": "calc(100vh - 188px)",
       },
     },
   },
