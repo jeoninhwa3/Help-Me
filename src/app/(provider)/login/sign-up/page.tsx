@@ -4,9 +4,9 @@ const SignUpPage = () => {
       <p className="text-gray900 text-2xl font-extrabold">
         Help Me와 함께 하기
       </p>
-      {/* <p className="mt-1 text-gray600 text-base">
+      <p className="mt-1 text-gray600 text-base">
         나에게 꼭 맞는 식단을 추천해드려요!
-      </p> */}
+      </p>
       <form>
         <div className="flex flex-col mt-6">
           <label
