@@ -5,7 +5,7 @@ import github from "@/assets/icons/icon_github.svg";
 
 const Footer = () => {
   return (
-    <footer className="px-5 py-6">
+    <footer className="px-5 py-6 bg-white">
       <div className="flex justify-between items-center">
         <h2>
           <Link href="/">

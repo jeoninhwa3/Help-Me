@@ -37,6 +37,9 @@ const config: Config = {
       minHeight: {
         "main-height": "calc(100vh - 188px)",
       },
+      boxShadow: {
+        "primary-btn": "0px 8px 16px 0px rgba(255, 122, 133, 0.40)",
+      },
     },
   },
   plugins: [],
