@@ -9,7 +9,7 @@ const SignUpPage = () => {
   const [nickname, setNickname] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignUpSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -36,7 +36,7 @@ const SignUpPage = () => {
       <p className="mt-1 text-gray600 text-base">
         나에게 꼭 맞는 식단을 추천해드려요!
       </p>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSignUpSubmit}>
         <div className="flex flex-col mt-6">
           <label
             className="text-gray900 text-sm text-left"
