@@ -1,5 +1,79 @@
-import { createContext } from "react";
+"use client";
 
-const UserContext = createContext(null);
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
+import { createContext, useContext, useEffect, useState } from "react";
 
-export default UserContext;
+type UserType = {
+  id: string;
+  email: string;
+} | null;
+
+const UserContext = createContext<{ user: UserType } | null>(null);
+
+const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const supabase = createClient();
+  const router = useRouter();
+  const [user, setUser] = useState<UserType>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      const user = data?.user;
+
+      if (user) {
+        setUser({
+          id: user.id,
+          email: user.email || "",
+        });
+      } else {
+        setUser(null);
+      }
+    };
+
+    getUser();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        setUser({
+          id: session?.user.id,
+          email: session?.user.email || "",
+        });
+      } else {
+        setUser(null);
+      }
+
+      if (event === "INITIAL_SESSION") {
+        router.push("/");
+        console.log("현재 로그인 상태입니다.");
+        return;
+      } else if (event === "SIGNED_IN") {
+        alert("로그인 되었습니다");
+        router.push("/");
+        return;
+      } else if (event === "SIGNED_OUT") {
+        alert("로그아웃 되었습니다");
+        router.push("/login");
+        return;
+      } else if (event === "USER_UPDATED") {
+        return;
+      }
+    });
+
+    return () => {
+      if (subscription && typeof subscription.unsubscribe === "function") {
+        subscription.unsubscribe();
+      }
+    };
+  }, []);
+
+  return (
+    <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
+  );
+};
+
+export default UserProvider;
+
+export const useUser = () => useContext(UserContext);
