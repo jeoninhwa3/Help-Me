@@ -2,9 +2,11 @@
 
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const MainPage = () => {
   const supabase = createClient();
+  const router = useRouter();
 
   const handleLogoutSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -15,6 +17,7 @@ const MainPage = () => {
       console.log("로그아웃 에러:", error);
     } else {
       console.log("로그아웃 성공");
+      router.push("/login");
     }
   };
 

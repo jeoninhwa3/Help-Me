@@ -29,6 +29,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
       } else {
         setUser(null);
       }
+      console.log(user);
     };
 
     getUser();
@@ -43,22 +44,6 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
         });
       } else {
         setUser(null);
-      }
-
-      if (event === "INITIAL_SESSION") {
-        router.push("/");
-        console.log("현재 로그인 상태입니다.");
-        return;
-      } else if (event === "SIGNED_IN") {
-        alert("로그인 되었습니다");
-        router.push("/");
-        return;
-      } else if (event === "SIGNED_OUT") {
-        alert("로그아웃 되었습니다");
-        router.push("/login");
-        return;
-      } else if (event === "USER_UPDATED") {
-        return;
       }
     });
 

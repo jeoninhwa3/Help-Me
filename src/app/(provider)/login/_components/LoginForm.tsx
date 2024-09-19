@@ -34,7 +34,7 @@ const LoginForm = () => {
         </label>
         <input
           className="mt-1 bg-default border-b border-gray300 border-solid focus:outline-none"
-          type="text"
+          type="email"
           id="user-email"
           placeholder="이메일을 입력하세요."
           value={email}
@@ -42,13 +42,16 @@ const LoginForm = () => {
         />
       </div>
       <div className="flex flex-col mt-6">
-        <label className="text-gray900 text-sm text-left" htmlFor="user-email">
+        <label
+          className="text-gray900 text-sm text-left"
+          htmlFor="user-password"
+        >
           비밀번호
         </label>
         <input
           className="mt-1 bg-default border-b border-gray300 border-solid focus:outline-none"
-          type="text"
-          id="user-email"
+          type="password"
+          id="user-password"
           placeholder="비밀번호를 입력하세요."
           value={password}
           onChange={(e) => setPassword(e.target.value)}
