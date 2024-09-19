@@ -10,6 +10,7 @@ const SignUpPage = () => {
   const [email, setEmail] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
   const [emailError, setEmailError] = useState<string | null>(null);
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -21,29 +22,41 @@ const SignUpPage = () => {
       password
     );
   const validateNickname = (nickname: string) =>
-    /^[a-zA-Z0-9]{2,10}$/.test(nickname);
+    /^[a-zA-Z0-9가-힣]+$/.test(nickname) &&
+    Array.from(nickname).length >= 2 &&
+    Array.from(nickname).length <= 10;
+
+  const handleValidateEmail = (value: string) => {
+    if (!validateEmail(value)) {
+      setEmailError("'abc@gmail.com'의 이메일 형식으로 작성해 주세요.");
+    } else {
+      setEmailError(null);
+    }
+    setEmail(value);
+  };
+
+  const handleValidateNickname = (value: string) => {
+    if (!validateNickname(value)) {
+      setNicknameError("닉네임은 2자 이상 10자 이하로 입력해 주세요.");
+    } else {
+      setNicknameError(null);
+    }
+    setNickname(value);
+  };
+
+  const handleValidatePassword = (value: string) => {
+    if (!validatePassword(value)) {
+      setPasswordError(
+        "비밀번호는 최소 6자 이상, 영문자와 숫자를 포함해야 합니다."
+      );
+    } else {
+      setPasswordError(null);
+    }
+    setPassword(value);
+  };
 
   const handleSignUpSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (!validateEmail(email)) {
-      setEmailError("'abc@gmail.com'의 이메일 형식으로 작성해 주세요.");
-      return;
-    }
-
-    if (!validatePassword(password)) {
-      setNicknameError(
-        "비밀번호는 최소 6자 이상, 영문자와 숫자를 포함해야 합니다."
-      );
-      return;
-    }
-
-    if (!validateNickname(nickname)) {
-      setPasswordError(
-        "닉네임은 2자 이상 10자 이하로 영문자와 숫자만 가능합니다."
-      );
-      return;
-    }
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -64,7 +77,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="absolute top-2/4 -translate-y-2/4 text-center">
+    <div className="text-center pt-5 pb-6">
       <p className="text-gray900 text-2xl font-extrabold">
         Help Me와 함께 하기
       </p>
@@ -72,7 +85,7 @@ const SignUpPage = () => {
         나에게 꼭 맞는 식단을 추천해드려요!
       </p>
       <form onSubmit={handleSignUpSubmit}>
-        <div className="flex flex-col mt-6 text-left">
+        <div className="flex flex-col mt-3 text-left">
           <label className="text-gray900 text-sm" htmlFor="user-email">
             이메일
           </label>
@@ -82,8 +95,13 @@ const SignUpPage = () => {
             id="user-email"
             placeholder="abc@gmail.com"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => handleValidateEmail(e.target.value)}
           />
+          {emailError && (
+            <p className="text-backgroundError mt-1 -mb-3 text-sm">
+              {emailError}
+            </p>
+          )}
         </div>
         <div className="flex flex-col mt-6 text-left">
           <label className="text-gray900 text-sm" htmlFor="user-nickname">
@@ -95,8 +113,13 @@ const SignUpPage = () => {
             id="user-nickname"
             placeholder="이나짱"
             value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
+            onChange={(e) => handleValidateNickname(e.target.value)}
           />
+          {nicknameError && (
+            <p className="text-backgroundError mt-1 -mb-3 text-sm">
+              {nicknameError}
+            </p>
+          )}
         </div>
         <div className="flex flex-col mt-6 text-left">
           <label className="text-gray900 text-sm" htmlFor="user-password">
@@ -108,8 +131,13 @@ const SignUpPage = () => {
             id="user-password"
             placeholder="비밀번호 입력"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => handleValidatePassword(e.target.value)}
           />
+          {passwordError && (
+            <p className="text-backgroundError mt-1 -mb-3 text-sm">
+              {passwordError}
+            </p>
+          )}
         </div>
 
         <button
