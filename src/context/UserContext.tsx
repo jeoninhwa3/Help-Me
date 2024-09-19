@@ -13,7 +13,6 @@ const UserContext = createContext<{ user: UserType } | null>(null);
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const supabase = createClient();
-  const router = useRouter();
   const [user, setUser] = useState<UserType>(null);
 
   useEffect(() => {
