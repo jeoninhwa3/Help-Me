@@ -1,7 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/images/img_logo.svg";
-import menu from "@/assets/icons/icon_hamburger.svg";
+import HeaderNav from "./_components/HeaderNav";
 
 const Header = () => {
   return (
@@ -11,9 +13,7 @@ const Header = () => {
           <Image src={logo} alt="HELPME" width={100} height={24} />
         </Link>
       </h1>
-      <button type="button" className="px-1 py-2">
-        <Image src={menu} alt="menu" width={24} height={24} />
-      </button>
+      <HeaderNav />
     </header>
   );
 };
