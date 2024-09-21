@@ -25,7 +25,6 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
       const user = data?.user;
-
       if (user) {
         setUser({
           id: user.id,

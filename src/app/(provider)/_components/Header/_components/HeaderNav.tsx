@@ -1,11 +1,10 @@
 import Image from "next/image";
 import menu from "@/assets/icons/icon_hamburger.svg";
+import defaultProfileImg from "@/assets/images/img_default_profile.jpg";
 import { useUser } from "@/context/UserContext";
 
 const HeaderNav = () => {
   const { user, profileUrl } = useUser() || {};
-  console.log(profileUrl);
-  console.log(user);
   return (
     <nav>
       <button type="button" className="px-1 py-2">
@@ -13,7 +12,13 @@ const HeaderNav = () => {
       </button>
       <ul className="absolute top-16 right-5 p-2 rounded-lg shadow-header-floating">
         <li className="flex text-gray900">
-          <Image src={menu} alt="menu" width={24} height={24} />
+          <Image
+            className="rounded-full"
+            src={profileUrl ? profileUrl : defaultProfileImg}
+            alt="menu"
+            width={40}
+            height={40}
+          />
           <p className="ml-2 text-gray900 text-sm">
             반가워요! <br />
             <strong className="mt-1 text-primary600 font-semibold">
