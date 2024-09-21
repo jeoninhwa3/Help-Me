@@ -4,8 +4,13 @@ import close from "@/assets/icons/icon_close.svg";
 import defaultProfileImg from "@/assets/images/img_default_profile.jpg";
 import { useUser } from "@/context/UserContext";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
+import Link from "next/link";
 
 const HeaderNav = () => {
+  const supabase = createClient();
+  const router = useRouter();
   const { user, profileUrl } = useUser() || {};
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLUListElement | null>(null);
@@ -13,6 +18,19 @@ const HeaderNav = () => {
 
   const handleDropDown = () => {
     setIsDropdownOpen((prev) => !prev);
+  };
+
+  const handleLogoutSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.log("로그아웃 에러:", error);
+    } else {
+      console.log("로그아웃 성공");
+      router.push("/login");
+    }
   };
 
   useEffect(() => {
@@ -74,7 +92,11 @@ const HeaderNav = () => {
               <li className="p-3 mt-1 text-gray900 text-sm">나만의 식단</li>
               <li className="p-3 mt-1 text-gray900 text-sm">커뮤니티</li>
               <li className="p-3 mt-1 text-gray900 text-sm">나의 프로필</li>
-              <li className="p-3 mt-1 text-gray900 text-sm">로그아웃</li>
+              <li className="p-3 mt-1 text-gray900 text-sm">
+                <button type="button" onClick={handleLogoutSubmit}>
+                  로그아웃
+                </button>
+              </li>
             </ul>
           )}
         </>
@@ -88,7 +110,11 @@ const HeaderNav = () => {
               {/* 링크태그 추가하기 */}
               <li className="p-3 mt-1 text-gray900 text-sm">나만의 식단</li>
               <li className="p-3 mt-1 text-gray900 text-sm">커뮤니티</li>
-              <li className="p-3 mt-1 text-gray900 text-sm">로그인</li>
+              <li className="p-3 mt-1 text-gray900 text-sm">
+                <button type="button" onClick={handleLogoutSubmit}>
+                  <Link href="/login">로그인</Link>
+                </button>
+              </li>
             </ul>
           )}
         </>
