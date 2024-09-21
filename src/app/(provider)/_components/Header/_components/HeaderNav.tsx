@@ -20,8 +20,14 @@ const HeaderNav = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
+  const handleCloseDropdown = () => {
+    setIsDropdownOpen(false);
+  };
+
   const handleLogoutSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
+    setIsDropdownOpen(false);
 
     const { error } = await supabase.auth.signOut();
 
@@ -89,9 +95,24 @@ const HeaderNav = () => {
                 </p>
               </li>
               {/* 링크태그 추가하기 */}
-              <li className="p-3 mt-1 text-gray900 text-sm">나만의 식단</li>
-              <li className="p-3 mt-1 text-gray900 text-sm">커뮤니티</li>
-              <li className="p-3 mt-1 text-gray900 text-sm">나의 프로필</li>
+              <li
+                className="p-3 mt-1 text-gray900 text-sm"
+                onClick={handleCloseDropdown}
+              >
+                나만의 식단
+              </li>
+              <li
+                className="p-3 mt-1 text-gray900 text-sm"
+                onClick={handleCloseDropdown}
+              >
+                커뮤니티
+              </li>
+              <li
+                className="p-3 mt-1 text-gray900 text-sm"
+                onClick={handleCloseDropdown}
+              >
+                나의 프로필
+              </li>
               <li className="p-3 mt-1 text-gray900 text-sm">
                 <button type="button" onClick={handleLogoutSubmit}>
                   로그아웃
@@ -108,8 +129,18 @@ const HeaderNav = () => {
               className="absolute top-16 right-5 p-2 rounded-lg bg-white shadow-header-floating z-10"
             >
               {/* 링크태그 추가하기 */}
-              <li className="p-3 mt-1 text-gray900 text-sm">나만의 식단</li>
-              <li className="p-3 mt-1 text-gray900 text-sm">커뮤니티</li>
+              <li
+                className="p-3 mt-1 text-gray900 text-sm"
+                onClick={handleCloseDropdown}
+              >
+                나만의 식단
+              </li>
+              <li
+                className="p-3 mt-1 text-gray900 text-sm"
+                onClick={handleCloseDropdown}
+              >
+                커뮤니티
+              </li>
               <li className="p-3 mt-1 text-gray900 text-sm">
                 <button type="button" onClick={handleLogoutSubmit}>
                   <Link href="/login">로그인</Link>
