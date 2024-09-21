@@ -39,6 +39,8 @@ const config: Config = {
       },
       boxShadow: {
         "primary-btn": "0px 8px 16px 0px rgba(255, 122, 133, 0.40)",
+        "header-line": "0px 1px 1px 0px rgba(39, 40, 42, 0.05);",
+        "header-floating": "0px 2px 4px 0px rgba(39, 40, 42, 0.10);",
       },
     },
   },

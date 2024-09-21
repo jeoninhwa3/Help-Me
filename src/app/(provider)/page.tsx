@@ -4,7 +4,7 @@ import cont01 from "@/assets/images/img_main_cont01.png";
 import cont02 from "@/assets/images/img_main_cont02.png";
 import cont03 from "@/assets/images/img_main_cont03.png";
 
-const Mainpage = () => {
+const MainPage = () => {
   return (
     <>
       <section className="pt-10 pb-20 text-center">
@@ -100,4 +100,4 @@ const Mainpage = () => {
   );
 };
 
-export default Mainpage;
+export default MainPage;
