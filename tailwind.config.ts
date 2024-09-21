@@ -33,6 +33,7 @@ const config: Config = {
         pramary100: "#FFF6F2",
         pramary500: "#FF7A85",
         pramary600: "#F5637C",
+        default: "#F8FAF8",
       },
       minHeight: {
         "main-height": "calc(100vh - 188px)",
