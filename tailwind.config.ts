@@ -33,10 +33,13 @@ const config: Config = {
         pramary100: "#FFF6F2",
         pramary500: "#FF7A85",
         pramary600: "#F5637C",
-        default: "#F8FAF8",
       },
       minHeight: {
         "main-height": "calc(100vh - 188px)",
+      },
+      boxShadow: {
+        "header-line": "0px 1px 1px 0px rgba(39, 40, 42, 0.05);",
+        "header-floating": "0px 2px 4px 0px rgba(39, 40, 42, 0.10);",
       },
     },
   },

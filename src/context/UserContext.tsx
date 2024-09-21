@@ -6,28 +6,45 @@ import { createContext, useContext, useEffect, useState } from "react";
 type UserType = {
   id: string;
   email: string;
+  nickname: string;
 } | null;
 
-const UserContext = createContext<{ user: UserType } | null>(null);
+type UserContextType = {
+  user: UserType | null;
+  profileUrl?: string;
+};
+
+const UserContext = createContext<UserContextType | null>(null);
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const supabase = createClient();
   const [user, setUser] = useState<UserType>(null);
+  const [profileUrl, setProfileUrl] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
       const user = data?.user;
-
       if (user) {
         setUser({
           id: user.id,
           email: user.email || "",
+          nickname: user.user_metadata.nickname,
         });
+
+        const { data: profileUrl } = await supabase
+          .from("users")
+          .select("profile_url")
+          .eq("user_id", user.id)
+          .single();
+
+        if (profileUrl) {
+          setProfileUrl(profileUrl.profile_url);
+        }
       } else {
         setUser(null);
+        setProfileUrl(undefined);
       }
-      console.log(user);
     };
 
     getUser();
@@ -39,9 +56,11 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
         setUser({
           id: session?.user.id,
           email: session?.user.email || "",
+          nickname: session?.user.user_metadata.nickname || "",
         });
       } else {
         setUser(null);
+        setProfileUrl(undefined);
       }
     });
 
@@ -53,7 +72,9 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ user, profileUrl }}>
+      {children}
+    </UserContext.Provider>
   );
 };
 
