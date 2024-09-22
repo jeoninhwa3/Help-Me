@@ -14,7 +14,7 @@ const MainAos = () => {
   }, []);
 
   return (
-    <section className="py-20 px-5">
+    <section className="py-20 px-5 overflow-hidden">
       <ul>
         <li className="mb-20">
           <div className="tracking-tight">

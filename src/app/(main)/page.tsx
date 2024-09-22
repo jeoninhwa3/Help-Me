@@ -3,6 +3,8 @@ import thumbnail from "@/assets/images/img_thumbnail.png";
 import Header from "../(provider)/_components/Header";
 import Footer from "../(provider)/_components/Footer";
 import MainAos from "./_components/MainAos";
+import MainSwiper from "./_components/MainSwiper";
+import MainReverseSwiper from "./_components/MainReverseSwiper";
 
 const MainPage = () => {
   return (
@@ -22,13 +24,15 @@ const MainPage = () => {
           </button>
         </section>
 
-        <section className="bg-[#181A1F]">
-          {/* swiper component */}
-          <div>
+        <section className="bg-[#181A1F] py-20">
+          <MainSwiper />
+          <div className="text-center py-20">
             <p className="text-white text-2xl font-medium">사용자들의 이야기</p>
-            <p className="text-white opacity-60">추천 식단과 함께한 경험</p>
+            <p className="text-white opacity-60 mt-1">
+              추천 식단과 함께한 경험
+            </p>
           </div>
-          {/* swiper component */}
+          <MainReverseSwiper />
         </section>
 
         <MainAos />

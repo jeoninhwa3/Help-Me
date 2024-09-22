@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.swiper-wrapper {
+  transition-timing-function: linear !important;
+}
+
+.swiper-slide:hover .text-area {
+  opacity: 1;
+}
+
+.swiper-slide::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.swiper-slide:hover::after {
+  background: var(--opacity-default-07, rgba(39, 40, 42, 0.7));
+}
