@@ -24,7 +24,12 @@ const HeaderNav = () => {
     setIsDropdownOpen(false);
   };
 
-  const handleLogoutSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
+  const handleLogIn = () => {
+    setIsDropdownOpen(false);
+    router.push("/login");
+  };
+
+  const handleLogOut = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     setIsDropdownOpen(false);
@@ -99,7 +104,7 @@ const HeaderNav = () => {
                 className="p-3 mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
               >
-                나만의 식단
+                <Link href="/mydiet">나만의 식단</Link>
               </li>
               <li
                 className="p-3 mt-1 text-gray900 text-sm"
@@ -114,7 +119,7 @@ const HeaderNav = () => {
                 나의 프로필
               </li>
               <li className="p-3 mt-1 text-gray900 text-sm">
-                <button type="button" onClick={handleLogoutSubmit}>
+                <button type="button" onClick={handleLogOut}>
                   로그아웃
                 </button>
               </li>
@@ -128,12 +133,11 @@ const HeaderNav = () => {
               ref={dropdownRef}
               className="absolute top-16 right-5 p-2 rounded-lg bg-white shadow-header-floating z-10"
             >
-              {/* 링크태그 추가하기 */}
               <li
                 className="p-3 mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
               >
-                나만의 식단
+                <Link href="/mydiet">나만의 식단</Link>
               </li>
               <li
                 className="p-3 mt-1 text-gray900 text-sm"
@@ -142,8 +146,8 @@ const HeaderNav = () => {
                 커뮤니티
               </li>
               <li className="p-3 mt-1 text-gray900 text-sm">
-                <button type="button" onClick={handleLogoutSubmit}>
-                  <Link href="/login">로그인</Link>
+                <button type="button" onClick={handleLogIn}>
+                  로그인
                 </button>
               </li>
             </ul>
