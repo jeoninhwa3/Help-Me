@@ -31,10 +31,11 @@ const config: Config = {
       backgroundColor: {
         gray100: "#F1F2F2",
         gray200: "#e4e5e7",
-        pramary100: "#FFF6F2",
-        pramary500: "#FF7A85",
-        pramary600: "#F5637C",
+        primary100: "#FFF6F2",
+        primary500: "#FF7A85",
+        primary600: "#F5637C",
         default: "#F8FAF8",
+        disabeld: "#E4E5E7",
       },
       minHeight: {
         "main-height": "calc(100vh - 188px)",
