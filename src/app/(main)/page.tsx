@@ -5,6 +5,7 @@ import Footer from "../(provider)/_components/Footer";
 import MainAos from "./_components/MainAos";
 import MainSwiper from "./_components/MainSwiper";
 import MainReverseSwiper from "./_components/MainReverseSwiper";
+import Button from "@/components/Button";
 
 const MainPage = () => {
   return (
@@ -13,15 +14,13 @@ const MainPage = () => {
       <main className="bg-default pt-14">
         <section className="pt-10 pb-20 text-center px-5">
           <Image src={thumbnail} alt="썸네일" width={320} height={244} />
-          <p className="leading-9 mt-10 text-gray900 text-[28px] font-medium">
+          <p className="leading-9 mt-10 mb-6 text-gray900 text-[28px] font-medium">
             간편하게, 나만을 위한 <br /> 맞춤형 건강 솔루션
           </p>
-          <button
-            className="w-[240px] leading-5 mt-10 py-4 bg-[#FF7A85] font-semibold text-white border border-solid rounded-lg shadow-primary-btn"
-            type="button"
-          >
-            맞춤 식단 제공받기
-          </button>
+          <Button
+            buttonName="맞춤 식단 제공받기"
+            theme="primaryGradient"
+          ></Button>
         </section>
 
         <section className="bg-[#181A1F] py-20">
@@ -42,15 +41,13 @@ const MainPage = () => {
             <p className="text-gray900 text-2xl font-extrabold">
               Health Protect me
             </p>
-            <p className="text-gray800 text-lg">
+            <p className="mb-6 text-gray800 text-lg">
               당신의 건강을 함께 지켜드릴게요
             </p>
-            <button
-              className="w-[240px] leading-5 mt-6 py-4 bg-[#FF7A85] font-semibold text-white border border-solid rounded-lg shadow-primary-btn"
-              type="button"
-            >
-              맞춤 식단 제공받기
-            </button>
+            <Button
+              buttonName="맞춤 식단 제공받기"
+              theme="primaryGradient"
+            ></Button>
           </div>
         </section>
       </main>
