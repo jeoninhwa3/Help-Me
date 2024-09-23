@@ -3,17 +3,17 @@ import OpenAI from "openai";
 
 export async function POST(request: NextRequest) {
   const SurveyData = await request.json();
-  const {
-    yearOfBirth,
-    gender,
-    height,
-    weight,
-    muscle,
-    bodyFat,
-    exercise,
-    purpose,
-    allergy,
-  } = SurveyData;
+  // const {
+  //   yearOfBirth,
+  //   gender,
+  //   height,
+  //   weight,
+  //   muscle,
+  //   bodyFat,
+  //   exercise,
+  //   purpose,
+  //   allergy,
+  // } = SurveyData;
 
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
