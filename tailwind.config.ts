@@ -12,6 +12,7 @@ const config: Config = {
         gray300: "#D5D6D8",
         gray500: "#95989D",
         gray600: "#76797F",
+        gray700: "#585B5F",
         gray800: "#404145",
         gray900: "#27282A",
         primary600: "#F5637C",

@@ -1,6 +1,14 @@
+"use client";
+
 import Button from "@/components/Button";
+import { useRouter } from "next/navigation";
 
 const SurveyGuidePage = () => {
+  const router = useRouter();
+  const handleNavigate = () => {
+    router.push("/survey");
+  };
+
   return (
     <div className="flex flex-col justify-center min-h-main-height text-center">
       <p className="mb-2 text-gray900 text-xl font-semibold">
@@ -16,6 +24,7 @@ const SurveyGuidePage = () => {
         buttonName="맞춤 식단 제공받기"
         theme="primaryGradient"
         width="w-[320px]"
+        onClick={handleNavigate}
       ></Button>
     </div>
   );
