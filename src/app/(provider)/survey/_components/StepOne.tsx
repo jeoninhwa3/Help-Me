@@ -11,7 +11,7 @@ const StepOne = ({ nextStep }: StepTwoProps) => {
 
   return (
     <div className="text-center">
-      <div className="flex flex-col mt-10">
+      <div className="flex flex-col mt-7">
         <p className="mb-1 text-gray900 text-xl font-semibold">
           키와 체중을 입력해 주세요
         </p>
@@ -26,7 +26,7 @@ const StepOne = ({ nextStep }: StepTwoProps) => {
           키
         </label>
         <input
-          className="mt-1 mb-6 px-3 py-2 bg-white border border-gray300 border-solid rounded focus:outline-none"
+          className="mt-1 px-3 py-2 bg-white border border-gray300 border-solid rounded focus:outline-none"
           type="number"
           id="year_of_birth"
           placeholder="예) 160"
@@ -35,13 +35,13 @@ const StepOne = ({ nextStep }: StepTwoProps) => {
         />
 
         <label
-          className="text-gray900 text-sm text-left"
+          className="mt-6 text-gray900 text-sm text-left"
           htmlFor="year_of_birth"
         >
           체중
         </label>
         <input
-          className="mt-1 mb-10 px-3 py-2 bg-white border border-gray300 border-solid rounded focus:outline-none"
+          className="mt-1 px-3 py-2 bg-white border border-gray300 border-solid rounded focus:outline-none"
           type="number"
           id="year_of_birth"
           placeholder="예) 50"
@@ -50,12 +50,14 @@ const StepOne = ({ nextStep }: StepTwoProps) => {
         />
       </div>
 
-      <Button
-        buttonName="다음으로"
-        theme={height && weight ? "primary" : "grey"}
-        disabled={height && weight ? false : true}
-        onClick={nextStep}
-      ></Button>
+      <div className="mt-10">
+        <Button
+          buttonName="다음으로"
+          theme={height && weight ? "primary" : "grey"}
+          disabled={height && weight ? false : true}
+          onClick={nextStep}
+        ></Button>
+      </div>
     </div>
   );
 };
