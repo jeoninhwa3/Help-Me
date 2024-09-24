@@ -18,7 +18,7 @@ const StepTwo = ({ step, nextStep, prevStep }: StepTwoProps) => {
           골격근량과 체지방률을 입력해 주세요
         </p>
         <p className="mb-6 text-gray700 text-sm">
-          골격근량과 체지방률에 따라 <br /> 일일 권장 칼로리 섭취량이 달라집니다
+          근육·지방량에 따라 일일 권장 칼로리 섭취량이 달라집니다
         </p>
 
         <label className="text-gray900 text-sm text-left" htmlFor="muscle">
@@ -28,7 +28,7 @@ const StepTwo = ({ step, nextStep, prevStep }: StepTwoProps) => {
           className="mt-1 px-3 py-2 bg-white border border-gray300 border-solid rounded focus:outline-none"
           type="number"
           id="muscle"
-          placeholder="예) 30.2"
+          placeholder="골격근량을 입력해 주세요 (kg 생략)"
           value={muscle}
           onChange={(e) => setMuscleh(e.target.value)}
         />
@@ -43,7 +43,7 @@ const StepTwo = ({ step, nextStep, prevStep }: StepTwoProps) => {
           className="mt-1 px-3 py-2 bg-white border border-gray300 border-solid rounded focus:outline-none"
           type="number"
           id="bodyFat"
-          placeholder="예) 23.7"
+          placeholder="체지방률을 입력해 주세요 (% 생략)"
           value={bodyFat}
           onChange={(e) => setBodyFat(e.target.value)}
         />

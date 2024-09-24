@@ -24,3 +24,23 @@
 .swiper-slide:hover::after {
   background: var(--opacity-default-07, rgba(39, 40, 42, 0.7));
 }
+
+input[type="radio"],
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="radio"] + label,
+input[type="checkbox"] + label {
+  display: block;
+  padding: 12px 16px;
+  border: 1px solid #b7b9bd;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #404145;
+}
+input[type="radio"]:checked + label,
+input[type="checkbox"]:checked + label {
+  border: 1px solid #f5637c;
+  background-color: #fff6f2;
+}

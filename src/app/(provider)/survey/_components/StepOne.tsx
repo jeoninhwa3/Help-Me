@@ -29,7 +29,7 @@ const StepOne = ({ nextStep }: StepTwoProps) => {
           className="mt-1 px-3 py-2 bg-white border border-gray300 border-solid rounded focus:outline-none"
           type="number"
           id="year_of_birth"
-          placeholder="예) 160"
+          placeholder="키를 입력해 주세요 (cm 생략)"
           value={height}
           onChange={(e) => setHeight(e.target.value)}
         />
@@ -44,7 +44,7 @@ const StepOne = ({ nextStep }: StepTwoProps) => {
           className="mt-1 px-3 py-2 bg-white border border-gray300 border-solid rounded focus:outline-none"
           type="number"
           id="year_of_birth"
-          placeholder="예) 50"
+          placeholder="체중을 입력해 주세요 (kg 생략)"
           value={weight}
           onChange={(e) => setWeight(e.target.value)}
         />

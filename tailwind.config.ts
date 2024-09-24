@@ -27,6 +27,7 @@ const config: Config = {
         gray400: "#B7B9BD",
         gray600: "#76797F",
         primary500: "#FF7A85",
+        primary600: "#F5637C",
         secondary600: "#49BA43",
       },
       backgroundColor: {
