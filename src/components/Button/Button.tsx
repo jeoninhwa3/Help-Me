@@ -11,6 +11,8 @@ interface ButtonProps {
   buttonName: string;
   theme: buttonTheme;
   width?: string;
+  padding?: string;
+  disabled?: boolean;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -20,15 +22,25 @@ const styles = {
     "p-4 rounded-lg leading-5 bg-[#FF7A85] font-semibold text-white shadow-primary-btn",
   grey: "py-3 px-4 rounded-lg bg-gray200 text-disabeld",
   borderPrimary:
-    "py-2 px-3 bg-white border border-solid border-primary500 rounded-lg text-primary600 font-medium",
+    "bg-white border border-solid border-primary500 rounded-lg text-primary600 font-medium",
   borderGrey:
-    "py-2 px-3 bg-white border border-solid border-gray400 rounded-lg text-gray900 font-medium",
+    "bg-white border border-solid border-gray400 rounded-lg text-gray900 font-medium",
 };
 
-const Button = ({ buttonName, theme, width, onClick }: ButtonProps) => {
+const Button = ({
+  buttonName,
+  theme,
+  width,
+  padding,
+  disabled,
+  onClick,
+}: ButtonProps) => {
   return (
     <button
-      className={`${styles[theme]} ${width ? width : "w-[240px]"}`}
+      className={`${styles[theme]} ${width ? width : "w-[240px]"} ${
+        padding ? padding : "py-3 px-4"
+      }`}
+      disabled={disabled ? disabled : false}
       onClick={onClick}
       type="button"
     >

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import ProgressBar from "./_components/ProgressBar";
 import StepOne from "./_components/StepOne";
+import StepTwo from "./_components/StepTwo";
+import Button from "@/components/Button";
 
 const SurveyPage = () => {
   const [step, setStep] = useState(1);
@@ -15,6 +17,17 @@ const SurveyPage = () => {
       <ProgressBar step={step} totalSteps={totalSteps} />
 
       {step === 1 && <StepOne nextStep={nextStep} />}
+      {step === 2 && <StepTwo nextStep={nextStep} prevStep={prevStep} />}
+
+      <div>
+        {step > 1 && (
+          <Button
+            buttonName="이전"
+            theme="borderGrey"
+            onClick={prevStep}
+          ></Button>
+        )}
+      </div>
     </div>
   );
 };

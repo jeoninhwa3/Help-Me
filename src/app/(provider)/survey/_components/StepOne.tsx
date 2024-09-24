@@ -53,6 +53,7 @@ const StepOne = ({ nextStep }: StepTwoProps) => {
       <Button
         buttonName="다음으로"
         theme={height && weight ? "primary" : "grey"}
+        disabled={height && weight ? false : true}
         onClick={nextStep}
       ></Button>
     </div>
