@@ -2,12 +2,11 @@ import Button from "@/components/Button";
 import React, { useState } from "react";
 
 interface StepFourProps {
-  step: number;
   nextStep: () => void;
   prevStep: () => void;
 }
 
-const StepFour = ({ step, nextStep, prevStep }: StepFourProps) => {
+const StepFour = ({ nextStep, prevStep }: StepFourProps) => {
   const [gender, setGender] = useState<string>();
 
   const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {

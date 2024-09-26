@@ -2,12 +2,11 @@ import Button from "@/components/Button";
 import { useState } from "react";
 
 interface StepFiveProps {
-  step: number;
   nextStep: () => void;
   prevStep: () => void;
 }
 
-const StepFive = ({ step, nextStep, prevStep }: StepFiveProps) => {
+const StepFive = ({ nextStep, prevStep }: StepFiveProps) => {
   const [purpose, setPurpose] = useState<string>();
 
   const handlePurposeChange = (e: React.ChangeEvent<HTMLInputElement>) => {

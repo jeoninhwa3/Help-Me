@@ -2,12 +2,11 @@ import Button from "@/components/Button";
 import { useState } from "react";
 
 interface StepTwoProps {
-  step: number;
   nextStep: () => void;
   prevStep: () => void;
 }
 
-const StepTwo = ({ step, nextStep, prevStep }: StepTwoProps) => {
+const StepTwo = ({ nextStep, prevStep }: StepTwoProps) => {
   const [muscle, setMuscleh] = useState<string>();
   const [bodyFat, setBodyFat] = useState<string>();
 

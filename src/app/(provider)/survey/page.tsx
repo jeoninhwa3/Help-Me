@@ -7,6 +7,7 @@ import StepTwo from "./_components/StepTwo";
 import StepThree from "./_components/StepThree";
 import StepFour from "./_components/StepFour";
 import StepFive from "./_components/StepFive";
+import StepSix from "./_components/StepSix";
 
 const SurveyPage = () => {
   const [step, setStep] = useState(1);
@@ -30,6 +31,9 @@ const SurveyPage = () => {
       )}
       {step === 5 && (
         <StepFive step={step} nextStep={nextStep} prevStep={prevStep} />
+      )}
+      {step === 6 && (
+        <StepSix step={step} nextStep={nextStep} prevStep={prevStep} />
       )}
     </div>
   );

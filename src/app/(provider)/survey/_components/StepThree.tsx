@@ -2,12 +2,11 @@ import Button from "@/components/Button";
 import React, { useState } from "react";
 
 interface StepThreeProps {
-  step: number;
   nextStep: () => void;
   prevStep: () => void;
 }
 
-const StepThree = ({ step, nextStep, prevStep }: StepThreeProps) => {
+const StepThree = ({ nextStep, prevStep }: StepThreeProps) => {
   const [yearOfBirth, setYearOfBirth] = useState<string>();
   const [exercise, setExercise] = useState<string>();
 
