@@ -3,12 +3,19 @@ import React, { useState } from "react";
 
 interface StepTwoProps {
   nextStep: () => void;
+  height: string;
+  setHeight: (value: string) => void;
+  weight: string;
+  setWeight: (value: string) => void;
 }
 
-const StepOne = ({ nextStep }: StepTwoProps) => {
-  const [height, setHeight] = useState<string>("");
-  const [weight, setWeight] = useState<string>("");
-
+const StepOne = ({
+  nextStep,
+  height,
+  setHeight,
+  weight,
+  setWeight,
+}: StepTwoProps) => {
   return (
     <div className="text-center">
       <div className="flex flex-col mt-7">

@@ -4,11 +4,11 @@ import React, { useState } from "react";
 interface StepFourProps {
   nextStep: () => void;
   prevStep: () => void;
+  gender: string;
+  setGender: (value: string) => void;
 }
 
-const StepFour = ({ nextStep, prevStep }: StepFourProps) => {
-  const [gender, setGender] = useState<string>("");
-
+const StepFour = ({ nextStep, prevStep, gender, setGender }: StepFourProps) => {
   const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGender(e.target.value);
   };

@@ -4,11 +4,16 @@ import { useState } from "react";
 interface StepFiveProps {
   nextStep: () => void;
   prevStep: () => void;
+  purpose: string;
+  setPurpose: (value: string) => void;
 }
 
-const StepFive = ({ nextStep, prevStep }: StepFiveProps) => {
-  const [purpose, setPurpose] = useState<string>("");
-
+const StepFive = ({
+  nextStep,
+  prevStep,
+  purpose,
+  setPurpose,
+}: StepFiveProps) => {
   const handlePurposeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPurpose(e.target.value);
   };

@@ -4,18 +4,22 @@ import { useState } from "react";
 
 interface StepSixProps {
   prevStep: () => void;
+  allergies: string[];
+  setAllergies: (value: string[]) => void;
+  handleSubmitSurvey: () => void;
 }
 
-const StepSix = ({ prevStep }: StepSixProps) => {
+const StepSix = ({
+  prevStep,
+  allergies,
+  setAllergies,
+  handleSubmitSurvey,
+}: StepSixProps) => {
   const router = useRouter();
-  const [allergies, setAllergies] = useState<string[]>([]);
 
   const handleAllergiesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAllergies([...allergies, e.target.value]);
-  };
-
-  const handleMoveMydiet = () => {
-    router.push("/mydiet");
+    // router.push("/mydiet");
   };
 
   return (
@@ -126,7 +130,7 @@ const StepSix = ({ prevStep }: StepSixProps) => {
           buttonName="다음으로"
           theme={allergies ? "primary" : "grey"}
           disabled={allergies ? false : true}
-          onClick={handleMoveMydiet}
+          onClick={handleSubmitSurvey}
         ></Button>
       </div>
     </div>

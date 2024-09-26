@@ -4,12 +4,20 @@ import { useState } from "react";
 interface StepTwoProps {
   nextStep: () => void;
   prevStep: () => void;
+  muscle: string;
+  setMuscleh: (value: string) => void;
+  bodyFat: string;
+  setBodyFat: (value: string) => void;
 }
 
-const StepTwo = ({ nextStep, prevStep }: StepTwoProps) => {
-  const [muscle, setMuscleh] = useState<string>("");
-  const [bodyFat, setBodyFat] = useState<string>("");
-
+const StepTwo = ({
+  nextStep,
+  prevStep,
+  muscle,
+  setMuscleh,
+  bodyFat,
+  setBodyFat,
+}: StepTwoProps) => {
   return (
     <div className="text-center">
       <div className="flex flex-col mt-7">

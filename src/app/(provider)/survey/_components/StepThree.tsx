@@ -4,12 +4,20 @@ import React, { useState } from "react";
 interface StepThreeProps {
   nextStep: () => void;
   prevStep: () => void;
+  yearOfBirth: string;
+  setYearOfBirth: (value: string) => void;
+  exercise: string;
+  setExercise: (value: string) => void;
 }
 
-const StepThree = ({ nextStep, prevStep }: StepThreeProps) => {
-  const [yearOfBirth, setYearOfBirth] = useState<string>("");
-  const [exercise, setExercise] = useState<string>("");
-
+const StepThree = ({
+  nextStep,
+  prevStep,
+  yearOfBirth,
+  setYearOfBirth,
+  exercise,
+  setExercise,
+}: StepThreeProps) => {
   return (
     <div className="text-center">
       <div className="flex flex-col mt-7">
