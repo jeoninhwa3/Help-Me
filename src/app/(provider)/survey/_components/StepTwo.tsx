@@ -7,8 +7,8 @@ interface StepTwoProps {
 }
 
 const StepTwo = ({ nextStep, prevStep }: StepTwoProps) => {
-  const [muscle, setMuscleh] = useState<string>();
-  const [bodyFat, setBodyFat] = useState<string>();
+  const [muscle, setMuscleh] = useState<string>("");
+  const [bodyFat, setBodyFat] = useState<string>("");
 
   return (
     <div className="text-center">

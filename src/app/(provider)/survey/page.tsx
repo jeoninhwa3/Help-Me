@@ -20,21 +20,11 @@ const SurveyPage = () => {
       <ProgressBar step={step} totalSteps={totalSteps} />
 
       {step === 1 && <StepOne nextStep={nextStep} />}
-      {step === 2 && (
-        <StepTwo step={step} nextStep={nextStep} prevStep={prevStep} />
-      )}
-      {step === 3 && (
-        <StepThree step={step} nextStep={nextStep} prevStep={prevStep} />
-      )}
-      {step === 4 && (
-        <StepFour step={step} nextStep={nextStep} prevStep={prevStep} />
-      )}
-      {step === 5 && (
-        <StepFive step={step} nextStep={nextStep} prevStep={prevStep} />
-      )}
-      {step === 6 && (
-        <StepSix step={step} nextStep={nextStep} prevStep={prevStep} />
-      )}
+      {step === 2 && <StepTwo nextStep={nextStep} prevStep={prevStep} />}
+      {step === 3 && <StepThree nextStep={nextStep} prevStep={prevStep} />}
+      {step === 4 && <StepFour nextStep={nextStep} prevStep={prevStep} />}
+      {step === 5 && <StepFive nextStep={nextStep} prevStep={prevStep} />}
+      {step === 6 && <StepSix prevStep={prevStep} />}
     </div>
   );
 };

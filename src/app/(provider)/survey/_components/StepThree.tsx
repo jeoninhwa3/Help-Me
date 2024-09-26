@@ -7,8 +7,8 @@ interface StepThreeProps {
 }
 
 const StepThree = ({ nextStep, prevStep }: StepThreeProps) => {
-  const [yearOfBirth, setYearOfBirth] = useState<string>();
-  const [exercise, setExercise] = useState<string>();
+  const [yearOfBirth, setYearOfBirth] = useState<string>("");
+  const [exercise, setExercise] = useState<string>("");
 
   return (
     <div className="text-center">

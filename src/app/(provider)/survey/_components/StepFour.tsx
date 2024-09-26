@@ -7,7 +7,7 @@ interface StepFourProps {
 }
 
 const StepFour = ({ nextStep, prevStep }: StepFourProps) => {
-  const [gender, setGender] = useState<string>();
+  const [gender, setGender] = useState<string>("");
 
   const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGender(e.target.value);

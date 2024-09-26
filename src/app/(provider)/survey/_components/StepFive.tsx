@@ -7,7 +7,7 @@ interface StepFiveProps {
 }
 
 const StepFive = ({ nextStep, prevStep }: StepFiveProps) => {
-  const [purpose, setPurpose] = useState<string>();
+  const [purpose, setPurpose] = useState<string>("");
 
   const handlePurposeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPurpose(e.target.value);
