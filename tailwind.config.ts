@@ -19,6 +19,7 @@ const config: Config = {
         backgroundInfo: "#1E87FF",
         backgroundError: "#E52030 ",
         disabeld: "#B7B9BD",
+        secondary: "#3E9B2E",
       },
       borderColor: {
         gray100: "#F1F2F2",
@@ -45,6 +46,9 @@ const config: Config = {
         "primary-btn": "0px 8px 16px 0px rgba(255, 122, 133, 0.40)",
         "header-line": "0px 1px 1px 0px rgba(39, 40, 42, 0.05);",
         "header-floating": "0px 2px 4px 0px rgba(39, 40, 42, 0.10);",
+      },
+      borderRadius: {
+        xl: "20px",
       },
     },
   },
