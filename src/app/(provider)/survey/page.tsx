@@ -9,6 +9,9 @@ import StepFour from "./_components/StepFour";
 import StepFive from "./_components/StepFive";
 import StepSix from "./_components/StepSix";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
+import { useUser } from "@/context/UserContext";
 
 const SurveyPage = () => {
   const [height, setHeight] = useState<string>("");
@@ -20,15 +23,21 @@ const SurveyPage = () => {
   const [gender, setGender] = useState<string>("");
   const [purpose, setPurpose] = useState<string>("");
   const [allergies, setAllergies] = useState<string[]>([]);
+  const { user } = useUser() || {};
+
   const [step, setStep] = useState(1);
   const totalSteps = 6;
   const nextStep = () => setStep((prev) => Math.min(prev + 1, totalSteps));
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
 
+  const router = useRouter();
+  const supabase = createClient();
+
   const handleSubmitSurvey = async () => {
     const fetchData = async () => {
       try {
         const res = await axios.post("api/gpt", {
+          user_id: user?.user_id,
           height,
           weight,
           muscle,
@@ -40,12 +49,35 @@ const SurveyPage = () => {
           allergies,
         });
         console.log(res.data);
-        console.log(height, allergies);
       } catch (error) {
         console.log("gpt data error", error);
       }
-      console.log(height, weight, muscle, bodyFat, yearOfBirth);
     };
+
+    if (!user?.user_id) {
+      return console.log("로딩중");
+    }
+
+    const { data: surveyData, error } = await supabase.from("survey").insert({
+      user_id: user.user_id,
+      height,
+      weight,
+      muscle,
+      body_fat: bodyFat,
+      year_of_birth: yearOfBirth,
+      exercise,
+      gender,
+      purpose,
+      allergies,
+    });
+
+    if (error) {
+      console.log("설문조사 에러 =>", error);
+    } else {
+      console.log("설문조사 성공 =>", surveyData);
+    }
+    router.push("/mydiet");
+
     fetchData();
   };
 

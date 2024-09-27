@@ -1,6 +1,4 @@
 import Button from "@/components/Button";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 interface StepSixProps {
   prevStep: () => void;
@@ -15,11 +13,8 @@ const StepSix = ({
   setAllergies,
   handleSubmitSurvey,
 }: StepSixProps) => {
-  const router = useRouter();
-
   const handleAllergiesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAllergies([...allergies, e.target.value]);
-    // router.push("/mydiet");
   };
 
   return (
