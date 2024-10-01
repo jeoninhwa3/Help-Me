@@ -14,7 +14,17 @@ const StepSix = ({
   handleSubmitSurvey,
 }: StepSixProps) => {
   const handleAllergiesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAllergies([...allergies, e.target.value]);
+    const { value, checked } = e.target as HTMLInputElement;
+
+    if (value === "없음" && checked) {
+      setAllergies(["없음"]);
+    } else if (value === "없음" && !checked) {
+      setAllergies(allergies.filter((item) => item !== "없음"));
+    } else if (checked) {
+      setAllergies([...allergies.filter((item) => item !== "없음"), value]);
+    } else {
+      setAllergies(allergies.filter((item) => item !== value));
+    }
   };
 
   return (

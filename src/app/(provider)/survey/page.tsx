@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ProgressBar from "./_components/ProgressBar";
 import StepOne from "./_components/StepOne";
 import StepTwo from "./_components/StepTwo";
@@ -22,7 +22,7 @@ const SurveyPage = () => {
   const [exercise, setExercise] = useState<string>("");
   const [gender, setGender] = useState<string>("");
   const [purpose, setPurpose] = useState<string>("");
-  const [allergies, setAllergies] = useState<string[]>([]);
+  const [allergies, setAllergies] = useState<string[]>(["없음"]);
   const { user } = useUser() || {};
 
   const [step, setStep] = useState(1);

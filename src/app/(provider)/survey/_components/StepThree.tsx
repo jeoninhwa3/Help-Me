@@ -18,6 +18,22 @@ const StepThree = ({
   exercise,
   setExercise,
 }: StepThreeProps) => {
+  const [yearOfBirthError, setYearOfBirthError] = useState<string>("");
+
+  const handleYearOfBirth = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    setYearOfBirth(value);
+
+    if (value && (Number(value) < 1950 || Number(value) > 2005)) {
+      setYearOfBirthError(
+        "출생연도는 1950(년) ~ 2005(년) 사이로 입력해 주세요"
+      );
+    } else {
+      setYearOfBirthError("");
+    }
+  };
+
   return (
     <div className="text-center">
       <div className="flex flex-col mt-7">
@@ -40,8 +56,13 @@ const StepThree = ({
           id="year_of_birth"
           placeholder="출생연도 4자리를 입력해주세요."
           value={yearOfBirth}
-          onChange={(e) => setYearOfBirth(e.target.value)}
+          onChange={handleYearOfBirth}
         />
+        {yearOfBirthError && (
+          <p className="text-backgroundError mt-1 -mb-3 text-sm text-left">
+            {yearOfBirthError}
+          </p>
+        )}
 
         <label
           className="mt-6 text-gray900 text-sm text-left"
@@ -67,8 +88,14 @@ const StepThree = ({
         ></Button>
         <Button
           buttonName="다음으로"
-          theme={yearOfBirth && exercise ? "primary" : "grey"}
-          disabled={yearOfBirth && exercise ? false : true}
+          theme={
+            yearOfBirth && exercise && yearOfBirthError === ""
+              ? "primary"
+              : "grey"
+          }
+          disabled={
+            yearOfBirth && exercise && yearOfBirthError === "" ? false : true
+          }
           onClick={nextStep}
         ></Button>
       </div>
