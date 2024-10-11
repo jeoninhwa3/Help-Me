@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import React, { useState } from "react";
 
-interface StepTwoProps {
+interface StepOneProps {
   nextStep: () => void;
   height: string;
   setHeight: (value: string) => void;
@@ -15,7 +15,33 @@ const StepOne = ({
   setHeight,
   weight,
   setWeight,
-}: StepTwoProps) => {
+}: StepOneProps) => {
+  const [heightError, setHeightError] = useState<string>("");
+  const [weightError, setWeightError] = useState<string>("");
+
+  const handleHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    setHeight(value);
+
+    if (Number(value) < 100 || Number(value) > 200) {
+      setHeightError("키는 100(cm) 이상 ~ 200(cm) 이하로 작성해 주세요");
+    } else {
+      setHeightError("");
+    }
+  };
+
+  const handleWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    setWeight(value);
+    if (Number(value) < 30 || Number(value) > 150) {
+      setWeightError("체중은 30(kg) 이상 ~ 150(kg) 이하로 작성해 주세요");
+    } else {
+      setWeightError("");
+    }
+  };
+
   return (
     <div className="text-center">
       <div className="flex flex-col mt-7">
@@ -38,8 +64,13 @@ const StepOne = ({
           id="year_of_birth"
           placeholder="키를 입력해 주세요 (cm 생략)"
           value={height}
-          onChange={(e) => setHeight(e.target.value)}
+          onChange={handleHeight}
         />
+        {heightError && (
+          <p className="text-backgroundError mt-1 -mb-3 text-sm text-left">
+            {heightError}
+          </p>
+        )}
 
         <label
           className="mt-6 text-gray900 text-sm text-left"
@@ -53,15 +84,28 @@ const StepOne = ({
           id="year_of_birth"
           placeholder="체중을 입력해 주세요 (kg 생략)"
           value={weight}
-          onChange={(e) => setWeight(e.target.value)}
+          onChange={handleWeight}
         />
+        {weightError && (
+          <p className="text-backgroundError mt-1 -mb-3 text-sm text-left">
+            {weightError}
+          </p>
+        )}
       </div>
 
       <div className="mt-10">
         <Button
           buttonName="다음으로"
-          theme={height && weight ? "primary" : "grey"}
-          disabled={height && weight ? false : true}
+          theme={
+            height && weight && heightError === "" && weightError === ""
+              ? "primary"
+              : "grey"
+          }
+          disabled={
+            height && weight && heightError === "" && weightError === ""
+              ? false
+              : true
+          }
           onClick={nextStep}
         ></Button>
       </div>
