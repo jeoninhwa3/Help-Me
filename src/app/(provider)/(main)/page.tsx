@@ -8,7 +8,7 @@ import Button from "@/components/Button";
 const MainPage = () => {
   return (
     <div>
-      <main className="bg-default">
+      <main className="bg-default pt-14">
         <section className="pt-10 pb-20 text-center px-5">
           <Image src={thumbnail} alt="썸네일" width={320} height={244} />
           <p className="leading-9 mt-10 mb-6 text-gray900 text-[28px] font-medium">
