@@ -42,13 +42,6 @@ export type Database = {
             referencedRelation: "posts"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "comments_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["user_id"]
-          },
         ]
       }
       posts: {
@@ -82,9 +75,92 @@ export type Database = {
           updated_at?: string
           user_id?: string
         }
+        Relationships: []
+      }
+      result: {
+        Row: {
+          breakfast: string
+          created_at: string
+          dinner: string
+          id: string
+          lunch: string
+          total_calorie: string
+          user_id: string
+        }
+        Insert: {
+          breakfast: string
+          created_at?: string
+          dinner: string
+          id?: string
+          lunch: string
+          total_calorie: string
+          user_id?: string
+        }
+        Update: {
+          breakfast?: string
+          created_at?: string
+          dinner?: string
+          id?: string
+          lunch?: string
+          total_calorie?: string
+          user_id?: string
+        }
         Relationships: [
           {
-            foreignKeyName: "posts_user_id_fkey"
+            foreignKeyName: "result_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      survey: {
+        Row: {
+          allergies: string
+          body_fat: number
+          created_at: string
+          exercise: string
+          gender: string
+          height: number
+          id: string
+          muscle: number
+          purpose: string
+          user_id: string
+          weight: number
+          year_of_birth: number
+        }
+        Insert: {
+          allergies: string
+          body_fat: number
+          created_at?: string
+          exercise: string
+          gender: string
+          height: number
+          id?: string
+          muscle: number
+          purpose: string
+          user_id?: string
+          weight: number
+          year_of_birth: number
+        }
+        Update: {
+          allergies?: string
+          body_fat?: number
+          created_at?: string
+          exercise?: string
+          gender?: string
+          height?: number
+          id?: string
+          muscle?: number
+          purpose?: string
+          user_id?: string
+          weight?: number
+          year_of_birth?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "survey_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
@@ -94,6 +170,7 @@ export type Database = {
       }
       users: {
         Row: {
+          created_at: string
           email: string
           is_survey_done: boolean
           nickname: string
@@ -101,13 +178,15 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          created_at?: string
           email: string
-          is_survey_done?: boolean
+          is_survey_done: boolean
           nickname: string
           profile_url?: string | null
-          user_id?: string
+          user_id: string
         }
         Update: {
+          created_at?: string
           email?: string
           is_survey_done?: boolean
           nickname?: string

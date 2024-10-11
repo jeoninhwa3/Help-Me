@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type UserType = {
-  id: string;
+  user_id: string;
   email: string;
   nickname: string;
 } | null;
@@ -18,7 +18,7 @@ const UserContext = createContext<UserContextType | null>(null);
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const supabase = createClient();
-  const [user, setUser] = useState<UserType>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const [profileUrl, setProfileUrl] = useState<string | undefined>(undefined);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
       const user = data?.user;
       if (user) {
         setUser({
-          id: user.id,
+          user_id: user.id,
           email: user.email || "",
           nickname: user.user_metadata.nickname,
         });
@@ -54,7 +54,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (session?.user) {
         setUser({
-          id: session?.user.id,
+          user_id: session?.user.id,
           email: session?.user.email || "",
           nickname: session?.user.user_metadata.nickname || "",
         });
@@ -69,7 +69,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
         subscription.unsubscribe();
       }
     };
-  }, []);
+  }, [supabase]);
 
   return (
     <UserContext.Provider value={{ user, profileUrl }}>
