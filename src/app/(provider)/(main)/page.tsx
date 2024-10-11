@@ -1,7 +1,5 @@
 import Image from "next/image";
 import thumbnail from "@/assets/images/img_thumbnail.png";
-import Header from "../(provider)/_components/Header";
-import Footer from "../(provider)/_components/Footer";
 import MainAos from "./_components/MainAos";
 import MainSwiper from "./_components/MainSwiper";
 import MainReverseSwiper from "./_components/MainReverseSwiper";
@@ -10,8 +8,7 @@ import Button from "@/components/Button";
 const MainPage = () => {
   return (
     <div>
-      <Header />
-      <main className="bg-default pt-14">
+      <main className="bg-default">
         <section className="pt-10 pb-20 text-center px-5">
           <Image src={thumbnail} alt="썸네일" width={320} height={244} />
           <p className="leading-9 mt-10 mb-6 text-gray900 text-[28px] font-medium">
@@ -51,7 +48,6 @@ const MainPage = () => {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 };

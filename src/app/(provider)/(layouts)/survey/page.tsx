@@ -58,7 +58,7 @@ const SurveyPage = () => {
       return console.log("로딩중");
     }
 
-    const { data: surveyData, insertError } = await supabase
+    const { data: surveyData, error: insertError } = await supabase
       .from("survey")
       .insert({
         user_id: user.user_id,
