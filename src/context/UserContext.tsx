@@ -69,7 +69,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
         subscription.unsubscribe();
       }
     };
-  }, []);
+  }, [supabase]);
 
   return (
     <UserContext.Provider value={{ user, profileUrl }}>
