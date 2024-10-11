@@ -1,19 +1,16 @@
-import { createMiddlewareSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/utils/supabase/server";
 
-export const middleware = async (request: NextRequest) => {
-  const response = NextResponse.next();
-  const supabase = createMiddlewareSupabaseClient({
-    req: request,
-    res: response,
-  });
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export const middleware = async (req: NextRequest) => {
+  const { pathname } = req.nextUrl;
+  const supabase = createClient();
+  const session = await supabase.auth.getSession();
+  const authToken = session.data.session?.access_token;
 
-  if (user && request.nextUrl.pathname.startsWith("/login")) {
-    return NextResponse.redirect(request.nextUrl.origin);
+  const restrictedPaths = ["/login"];
+  if (restrictedPaths.includes(pathname) && authToken) {
+    return NextResponse.redirect(new URL("/", req.nextUrl.origin));
   }
 
-  return response;
+  return NextResponse.next();
 };
