@@ -8,7 +8,6 @@ import StepThree from "./_components/StepThree";
 import StepFour from "./_components/StepFour";
 import StepFive from "./_components/StepFive";
 import StepSix from "./_components/StepSix";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { useUser } from "@/context/UserContext";
@@ -34,26 +33,6 @@ const SurveyPage = () => {
   const supabase = createClient();
 
   const handleSubmitSurvey = async () => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.post("api/gpt", {
-          user_id: user?.user_id,
-          height,
-          weight,
-          muscle,
-          bodyFat,
-          yearOfBirth,
-          exercise,
-          gender,
-          purpose,
-          allergies,
-        });
-        console.log(res.data);
-      } catch (error) {
-        console.log("gpt data error", error);
-      }
-    };
-
     if (!user?.user_id) {
       return console.log("로딩중");
     }
@@ -91,8 +70,6 @@ const SurveyPage = () => {
     }
 
     router.push("/mydiet");
-
-    fetchData();
   };
 
   return (
