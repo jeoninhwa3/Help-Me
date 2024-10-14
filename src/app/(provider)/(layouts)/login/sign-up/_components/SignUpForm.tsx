@@ -24,7 +24,7 @@ const SignUpForm = () => {
   const validateNickname = (nickname: string) =>
     /^[a-zA-Z0-9가-힣]+$/.test(nickname) &&
     Array.from(nickname).length >= 2 &&
-    Array.from(nickname).length <= 10;
+    Array.from(nickname).length <= 6;
 
   const handleValidateEmail = (value: string) => {
     if (!validateEmail(value)) {
@@ -37,7 +37,7 @@ const SignUpForm = () => {
 
   const handleValidateNickname = (value: string) => {
     if (!validateNickname(value)) {
-      setNicknameError("닉네임은 2자 이상 10자 이하로 입력해 주세요.");
+      setNicknameError("닉네임은 2자 이상 6자 이하로 입력해 주세요.");
     } else {
       setNicknameError(null);
     }
