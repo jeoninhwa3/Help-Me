@@ -39,7 +39,11 @@ const config: Config = {
         default: "#F8FAF8",
       },
       minHeight: {
-        "main-height": "calc(100vh - 188px)",
+        "main-mobile-height": "calc(100vh - 188px)",
+        "main-web-height": "calc(100vh - 192px)",
+      },
+      maxWidth: {
+        container: "1440px",
       },
       boxShadow: {
         "primary-btn": "0px 8px 16px 0px rgba(255, 122, 133, 0.40)",
