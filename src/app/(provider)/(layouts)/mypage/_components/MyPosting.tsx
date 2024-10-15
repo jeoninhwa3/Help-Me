@@ -3,7 +3,7 @@ import Image from "next/image";
 const MyPosting = () => {
   return (
     <div className="p-4 mt-6 border border-gray300 rounded-xl border-solid bg-white">
-      <h3 className="-mb-2 text-gray900 text-xl font-semibold">
+      <h3 className="-mb-2 text-gray900 text-lg font-semibold">
         내가 작성한 글
       </h3>
       <ul>
