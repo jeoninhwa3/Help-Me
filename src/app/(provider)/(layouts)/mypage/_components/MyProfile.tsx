@@ -15,6 +15,7 @@ const MyProfile = () => {
     purpose: "",
   });
   const [purpose, setPurpose] = useState("");
+  const [bmi, setBmi] = useState<string | null>(null);
 
   useEffect(() => {
     const userData = async () => {
@@ -37,6 +38,23 @@ const MyProfile = () => {
           case "건강한 식사를 하고 싶어요":
             setPurpose("건강 식사");
             break;
+        }
+
+        const bmi = Number(
+          data.weight / (((data.height / 100) * data.height) / 100)
+        );
+        console.log(typeof bmi);
+
+        if (bmi < 18.5) {
+          setBmi("저체중");
+        } else if (bmi >= 18.5 && bmi < 23) {
+          setBmi("정상");
+        } else if (bmi >= 23 && bmi < 25) {
+          setBmi("과체중");
+        } else if (bmi >= 25 && bmi < 30) {
+          setBmi("비만");
+        } else {
+          setBmi("고도비만");
         }
       } else {
         console.log("유저 정보 저장 오류", error);
@@ -91,7 +109,7 @@ const MyProfile = () => {
                 <strong className="block text-gray900 font-semibold">
                   BMI
                 </strong>
-                <span className="text-gray800 text-sm">과체중</span>
+                <span className="text-gray800 text-sm">{bmi}</span>
               </li>
             </ul>
           </div>
