@@ -5,9 +5,11 @@ import { createClient } from "@/utils/supabase/client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import defaultProfileImg from "@/assets/images/img_default_profile.jpg";
+import { useRouter } from "next/navigation";
 
 const MyProfile = () => {
   const supabase = createClient();
+  const router = useRouter();
   const { user, profileUrl } = useUser() || {};
   const [userInfo, setUserInfo] = useState({
     height: "",
@@ -16,6 +18,10 @@ const MyProfile = () => {
   });
   const [purpose, setPurpose] = useState("");
   const [bmi, setBmi] = useState<string | null>(null);
+
+  const handleEditProfile = () => {
+    router.push("/mypage/mypage-edit");
+  };
 
   useEffect(() => {
     const userData = async () => {
@@ -70,11 +76,11 @@ const MyProfile = () => {
     <>
       {user && (
         <div className="p-6 border border-gray300 rounded-xl border-solid bg-white text-center">
-          <div>
+          <div className="w-[120px] h-[120px] mx-auto my-0">
             <Image
-              className="inline-block rounded-full"
+              className="inline-block h-full rounded-full object-cover"
               src={profileUrl ? profileUrl : defaultProfileImg}
-              alt="내프로필"
+              alt={user.nickname}
               width={120}
               height={120}
             />
@@ -116,6 +122,7 @@ const MyProfile = () => {
 
           <button
             type="button"
+            onClick={handleEditProfile}
             className="w-full py-[10px] mt-6 border border-[#80D85D] border-solid rounded-lg text-[#49BA43] font-medium"
           >
             프로필 수정하기
