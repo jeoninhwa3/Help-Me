@@ -42,7 +42,7 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={handleLoginSubmit}>
-      <div className="flex flex-col mt-6 text-left">
+      <div className="flex flex-col relative mt-6 text-left">
         <label className="text-gray900 text-sm" htmlFor="user-email">
           이메일
         </label>
@@ -55,12 +55,12 @@ const LoginForm = () => {
           onChange={(e) => handleValidateEmail(e.target.value)}
         />
         {emailError && (
-          <p className="text-backgroundError mt-1 -mb-2 text-sm">
+          <p className="absolute -bottom-3 text-backgroundError mt-1 -mb-2 text-sm">
             {emailError}
           </p>
         )}
       </div>
-      <div className="flex flex-col mt-6 text-left">
+      <div className="flex flex-col relative mt-[30px] text-left">
         <label className="text-gray900 text-sm" htmlFor="user-password">
           비밀번호
         </label>
@@ -73,7 +73,7 @@ const LoginForm = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         {passwordError && (
-          <p className="text-backgroundError mt-1 -mb-2 text-sm">
+          <p className="absolute -bottom-3 text-backgroundError mt-1 -mb-2 text-sm">
             {passwordError}
           </p>
         )}
