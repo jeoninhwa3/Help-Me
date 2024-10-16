@@ -72,7 +72,7 @@ const MyProfileEdit = () => {
               </div>
             </div>
 
-            <div className="flex flex-col mt-6 text-left">
+            <div className="flex flex-col relative mt-6 text-left">
               <label className="text-gray900 text-sm" htmlFor="user-nickname">
                 닉네임
               </label>
@@ -85,13 +85,13 @@ const MyProfileEdit = () => {
                 onChange={(e) => handleValidateNickname(e.target.value)}
               />
               {nicknameError && (
-                <p className="text-backgroundError mt-1 -mb-3 text-sm">
+                <p className="absolute -bottom-5 text-backgroundError text-sm">
                   {nicknameError}
                 </p>
               )}
             </div>
 
-            <div className="flex gap-4 mt-6">
+            <div className="flex gap-4 mt-8">
               <Button
                 buttonName="취소"
                 theme="borderGrey"

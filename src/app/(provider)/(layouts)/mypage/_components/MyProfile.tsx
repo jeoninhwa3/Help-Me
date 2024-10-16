@@ -75,7 +75,7 @@ const MyProfile = () => {
   return (
     <>
       {user && (
-        <div className="p-6 border border-gray300 rounded-xl border-solid bg-white text-center">
+        <div className="max-w-[360px] max-h-[470px]  p-6 mx-auto my-0 border border-gray300 rounded-xl border-solid bg-white text-center lg:w-[400px] lg:mx-0">
           <div className="w-[120px] h-[120px] mx-auto my-0">
             <Image
               className="inline-block h-full rounded-full object-cover"
@@ -88,7 +88,7 @@ const MyProfile = () => {
           <p className="mt-4 text-gray900 font-semibold">{user.nickname}</p>
 
           <div className="mt-4 rounded-xl shadow-header-floating p-4">
-            <strong className="block w-[240px] py-1.5 leading-7 text-[#279B6A] rounded-xl bg-[#EAF3EC] text-lg font-medium">
+            <strong className="inline-block w-[240px] py-1.5 leading-7 text-[#279B6A] rounded-xl bg-[#EAF3EC] text-lg font-medium">
               {purpose}
             </strong>
             <p className="mt-2 text-gray600 text-xs">
