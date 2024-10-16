@@ -81,7 +81,7 @@ const HeaderNav = () => {
           {isDropdownOpen && (
             <ul
               ref={dropdownRef}
-              className="absolute top-[52px] right-5 w-[180px] p-2 rounded-lg bg-white shadow-header-floating z-10"
+              className="absolute top-[52px] right-0 w-[180px] p-2 rounded-lg bg-white shadow-header-floating z-10"
             >
               <li className="flex p-3 text-gray900">
                 <Image
@@ -133,7 +133,7 @@ const HeaderNav = () => {
           {isDropdownOpen && (
             <ul
               ref={dropdownRef}
-              className="absolute top-[52px] right-5 w-[142px] p-2 rounded-lg bg-white shadow-header-floating z-10"
+              className="absolute top-[52px] right-0 w-[142px] p-2 rounded-lg bg-white shadow-header-floating z-10"
             >
               <li
                 className="mt-1 text-gray900 text-sm"

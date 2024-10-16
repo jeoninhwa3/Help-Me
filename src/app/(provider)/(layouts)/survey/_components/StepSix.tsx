@@ -28,8 +28,8 @@ const StepSix = ({
   };
 
   return (
-    <div className="text-center">
-      <div className="mt-7 mb-5">
+    <div className="max-w-[400px] mx-auto text-center">
+      <div className="mt-7 mb-5 md:mt-10">
         <p className="mb-1 text-gray900 text-xl font-semibold">
           알레르기가 있다면 모두 체크해 주세요
         </p>
@@ -45,7 +45,9 @@ const StepSix = ({
             checked={allergies.includes("땅콩")}
             onChange={handleAllergiesChange}
           />
-          <label htmlFor="allergies1">땅콩</label>
+          <label htmlFor="allergies1" className="cursor-pointer">
+            땅콩
+          </label>
 
           <input
             id="allergies2"
@@ -54,7 +56,9 @@ const StepSix = ({
             checked={allergies.includes("복숭아")}
             onChange={handleAllergiesChange}
           />
-          <label htmlFor="allergies2">복숭아</label>
+          <label htmlFor="allergies2" className="cursor-pointer">
+            복숭아
+          </label>
 
           <input
             id="allergies3"
@@ -63,7 +67,9 @@ const StepSix = ({
             checked={allergies.includes("우유")}
             onChange={handleAllergiesChange}
           />
-          <label htmlFor="allergies3">우유</label>
+          <label htmlFor="allergies3" className="cursor-pointer">
+            우유
+          </label>
         </div>
 
         <div className="flex gap-4 mt-4">
@@ -74,7 +80,9 @@ const StepSix = ({
             checked={allergies.includes("갑각류")}
             onChange={handleAllergiesChange}
           />
-          <label htmlFor="allergies4">갑각류</label>
+          <label htmlFor="allergies4" className="cursor-pointer">
+            갑각류
+          </label>
 
           <input
             id="allergies5"
@@ -83,7 +91,9 @@ const StepSix = ({
             checked={allergies.includes("새우")}
             onChange={handleAllergiesChange}
           />
-          <label htmlFor="allergies5">새우</label>
+          <label htmlFor="allergies5" className="cursor-pointer">
+            새우
+          </label>
 
           <input
             id="allergies6"
@@ -92,7 +102,9 @@ const StepSix = ({
             checked={allergies.includes("돼지고기")}
             onChange={handleAllergiesChange}
           />
-          <label htmlFor="allergies6">돼지고기</label>
+          <label htmlFor="allergies6" className="cursor-pointer">
+            돼지고기
+          </label>
         </div>
 
         <div className="flex gap-4 mt-4">
@@ -103,7 +115,9 @@ const StepSix = ({
             checked={allergies.includes("달걀")}
             onChange={handleAllergiesChange}
           />
-          <label htmlFor="allergies7">달걀</label>
+          <label htmlFor="allergies7" className="cursor-pointer">
+            달걀
+          </label>
 
           <input
             id="allergies8"
@@ -112,7 +126,9 @@ const StepSix = ({
             checked={allergies.includes("견과류")}
             onChange={handleAllergiesChange}
           />
-          <label htmlFor="allergies8">견과류</label>
+          <label htmlFor="allergies8" className="cursor-pointer">
+            견과류
+          </label>
 
           <input
             id="allergies9"
@@ -121,7 +137,9 @@ const StepSix = ({
             checked={allergies.includes("없음")}
             onChange={handleAllergiesChange}
           />
-          <label htmlFor="allergies9">없음</label>
+          <label htmlFor="allergies9" className="cursor-pointer">
+            없음
+          </label>
         </div>
       </div>
 

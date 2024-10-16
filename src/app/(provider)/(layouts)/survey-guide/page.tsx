@@ -10,7 +10,7 @@ const SurveyGuidePage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center min-h-main-height text-center">
+    <div className="flex flex-col justify-center items-center min-h-main-height pt-20 text-center sm:pt-40">
       <p className="mb-2 text-gray900 text-xl font-semibold">
         나에게 맞는 맞춤 식단으로 <br />
         개인화된 건강 관리를 시작해보세요
@@ -24,6 +24,7 @@ const SurveyGuidePage = () => {
         buttonName="맞춤 식단 제공받기"
         theme="primaryGradient"
         width="w-[320px]"
+        padding="py-4"
         onClick={handleNavigate}
       ></Button>
     </div>
