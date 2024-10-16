@@ -4,13 +4,14 @@ import Image from "next/image";
 import { useUser } from "@/context/UserContext";
 import { createClient } from "@/utils/supabase/client";
 import defaultProfileImg from "@/assets/images/img_default_profile.jpg";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 
 const MyProfileEdit = () => {
   const supabase = createClient();
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { user, profileUrl } = useUser() || {};
   const [nickname, setNickname] = useState<string>("");
   const [nicknameError, setNicknameError] = useState<string | null>(null);
@@ -29,6 +30,10 @@ const MyProfileEdit = () => {
     setNickname(value);
   };
 
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
   const handleCancle = () => {
     router.push("/mypage");
   };
@@ -42,13 +47,19 @@ const MyProfileEdit = () => {
           <form onSubmit={handleEditProfileSubmit}>
             <div className="flex items-center mt-4">
               <div className="shrink-0 w-[96px] h-[96px]">
-                <input type="file" accept="image/*" />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                />
                 <Image
                   className="inline-block w-full h-full rounded-full object-cover"
                   src={profileUrl ? profileUrl : defaultProfileImg}
                   alt={user?.nickname}
                   width={96}
                   height={96}
+                  onClick={handleImageClick}
                 />
               </div>
               <div className="ml-6">
