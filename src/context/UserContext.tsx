@@ -32,6 +32,8 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
           nickname: user.user_metadata.nickname,
         });
 
+        console.log(user);
+
         const { data: profileUrl } = await supabase
           .from("users")
           .select("profile_url")
