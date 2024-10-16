@@ -99,7 +99,6 @@ const HeaderNav = () => {
                   님
                 </p>
               </li>
-              {/* 링크태그 추가하기 */}
               <li
                 className="mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
@@ -109,16 +108,20 @@ const HeaderNav = () => {
                 </Link>
               </li>
               <li
-                className="p-3 mt-1 text-gray900 text-sm"
+                className="mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
               >
-                커뮤니티
+                <Link href="/community" className="block p-3">
+                  커뮤니티
+                </Link>
               </li>
               <li
-                className="p-3 mt-1 text-gray900 text-sm"
+                className="mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
               >
-                나의 프로필
+                <Link href="/mypage" className="block p-3">
+                  나의 프로필
+                </Link>
               </li>
               <li className="p-3 mt-1 text-gray900 text-sm">
                 <button type="button" onClick={handleLogOut}>
@@ -139,15 +142,17 @@ const HeaderNav = () => {
                 className="mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
               >
-                <Link href="/mydiet" className="block p-3 w-full">
+                <Link href="/mydiet" className="block p-3">
                   나만의 식단
                 </Link>
               </li>
               <li
-                className="p-3 mt-1 text-gray900 text-sm"
+                className="mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
               >
-                커뮤니티
+                <Link href="/community" className="block p-3">
+                  커뮤니티
+                </Link>
               </li>
               <li className="p-3 mt-1 text-gray900 text-sm">
                 <button type="button" onClick={handleLogIn}>
