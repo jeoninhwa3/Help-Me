@@ -49,7 +49,6 @@ const MyProfile = () => {
         const bmi = Number(
           data.weight / (((data.height / 100) * data.height) / 100)
         );
-        console.log(typeof bmi);
 
         if (bmi < 18.5) {
           setBmi("저체중");

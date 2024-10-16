@@ -4,17 +4,20 @@ import Image from "next/image";
 import { useUser } from "@/context/UserContext";
 import { createClient } from "@/utils/supabase/client";
 import defaultProfileImg from "@/assets/images/img_default_profile.jpg";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
+import { v4 as uuidv4 } from "uuid";
 
 const MyProfileEdit = () => {
   const supabase = createClient();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { user, profileUrl } = useUser() || {};
+  const { user } = useUser() || {};
   const [nickname, setNickname] = useState<string>("");
   const [nicknameError, setNicknameError] = useState<string | null>(null);
+  const [profileUrl, setProfileUrl] = useState<string>();
+  const [previewUrl, setPreviewUrl] = useState<string>();
 
   const validateNickname = (nickname: string) =>
     /^[a-zA-Z0-9가-힣]+$/.test(nickname) &&
@@ -34,17 +37,111 @@ const MyProfileEdit = () => {
     fileInputRef.current?.click();
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const preview = URL.createObjectURL(file);
+      setPreviewUrl(preview);
+    }
+  };
+
   const handleCancle = () => {
     router.push("/mypage");
   };
 
-  const handleEditProfileSubmit = () => {};
+  const handleEditProfile = async () => {
+    const newFileName = uuidv4();
+    const file = fileInputRef.current?.files?.[0];
+
+    if (file) {
+      const { data: uploadFileData, error } = await supabase.storage
+        .from("avatars")
+        .upload(newFileName, file);
+
+      if (error) {
+        console.log("이미지 업로드 에러", error);
+        return;
+      }
+
+      const response = supabase.storage
+        .from("avatars")
+        .getPublicUrl(uploadFileData.path);
+      const publicUrl = response.data.publicUrl;
+
+      setProfileUrl(publicUrl);
+
+      try {
+        const updateFields: { profile_url?: string; nickname?: string } = {
+          profile_url: publicUrl,
+        };
+
+        if (nickname) {
+          updateFields.nickname = nickname;
+        }
+
+        const { data: updateData } = await supabase
+          .from("users")
+          .update(updateFields)
+          .eq("user_id", user?.user_id);
+
+        await supabase.auth.updateUser({
+          data: { nickname },
+        });
+
+        console.log("프로필 업데이트 성공");
+        router.push("/mypage");
+      } catch (error) {
+        console.log("프로필 저장 에러", error);
+      }
+    } else {
+      if (nickname) {
+        try {
+          const { data: updateData } = await supabase
+            .from("users")
+            .update({
+              nickname,
+            })
+            .eq("user_id", user?.user_id);
+
+          await supabase.auth.updateUser({
+            data: { nickname },
+          });
+
+          console.log("닉네임만 업데이트 성공");
+          router.push("/mypage");
+        } catch (error) {
+          console.log("닉네임 업데이트 에러", error);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const { data, error } = await supabase
+        .from("users")
+        .select("profile_url, nickname")
+        .eq("user_id", user?.user_id)
+        .single();
+
+      if (error) {
+        console.log("유저프로필 가져오기 에러", error);
+      } else {
+        setProfileUrl(data.profile_url);
+        setPreviewUrl(data.profile_url);
+        setNickname(data.nickname);
+      }
+    };
+    if (user) {
+      getUserData();
+    }
+  }, [user]);
 
   return (
     <>
       {user && (
         <>
-          <form onSubmit={handleEditProfileSubmit}>
+          <form>
             <div className="flex items-center mt-4">
               <div className="shrink-0 w-[96px] h-[96px]">
                 <input
@@ -52,10 +149,11 @@ const MyProfileEdit = () => {
                   type="file"
                   accept="image/*"
                   className="hidden"
+                  onChange={handleImageChange}
                 />
                 <Image
-                  className="inline-block w-full h-full rounded-full object-cover"
-                  src={profileUrl ? profileUrl : defaultProfileImg}
+                  className="inline-block w-full h-full rounded-full object-cover cursor-pointer"
+                  src={previewUrl || profileUrl || defaultProfileImg}
                   alt={user?.nickname}
                   width={96}
                   height={96}
@@ -103,6 +201,7 @@ const MyProfileEdit = () => {
                 theme={!nicknameError ? "primary" : "grey"}
                 disabled={!nicknameError ? false : true}
                 padding="py-[7px]"
+                onClick={handleEditProfile}
               ></Button>
             </div>
           </form>

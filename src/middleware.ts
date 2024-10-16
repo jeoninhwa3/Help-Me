@@ -15,7 +15,7 @@ export const middleware = async (req: NextRequest) => {
   }
 
   // 설문조사 미완료 시 접근할 수 없는 페이지
-  const publicPaths = ["/my-page", "/mydiet"];
+  const publicPaths = ["/mypage", "/mydiet"];
 
   if (userId) {
     const { data: surveyData } = await supabase
