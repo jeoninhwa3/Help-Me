@@ -88,7 +88,7 @@ const MyProfileEdit = () => {
           data: { nickname },
         });
 
-        console.log("프로필 업데이트 성공");
+        console.log("프로필 업데이트 성공", updateData);
         router.push("/mypage");
       } catch (error) {
         console.log("프로필 저장 에러", error);
@@ -107,7 +107,7 @@ const MyProfileEdit = () => {
             data: { nickname },
           });
 
-          console.log("닉네임만 업데이트 성공");
+          console.log("닉네임만 업데이트 성공", updateData);
           router.push("/mypage");
         } catch (error) {
           console.log("닉네임 업데이트 에러", error);
