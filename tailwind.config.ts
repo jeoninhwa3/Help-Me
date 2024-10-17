@@ -19,6 +19,7 @@ const config: Config = {
         backgroundInfo: "#1E87FF",
         backgroundError: "#E52030 ",
         disabeld: "#B7B9BD",
+        secondary: "#3E9B2E",
       },
       borderColor: {
         gray100: "#F1F2F2",

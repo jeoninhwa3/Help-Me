@@ -14,9 +14,6 @@ export const middleware = async (req: NextRequest) => {
     return NextResponse.redirect(new URL("/", req.nextUrl.origin));
   }
 
-  // 설문조사 미완료 시 접근할 수 없는 페이지
-  const publicPaths = ["/mypage", "/mydiet"];
-
   if (userId) {
     const { data: surveyData } = await supabase
       .from("users")
@@ -26,6 +23,14 @@ export const middleware = async (req: NextRequest) => {
 
     const surveyCompleted = surveyData?.is_survey_done;
 
+    // 설문조사 완료 시 접근할 수 없는 페이지
+    const confidentialPaths = ["/survey-guide", "/survey"];
+    if (surveyCompleted && confidentialPaths.includes(pathname)) {
+      return NextResponse.redirect(new URL("/", req.nextUrl.origin));
+    }
+
+    // 설문조사 미완료 시 접근할 수 없는 페이지
+    const publicPaths = ["/mypage", "/mydiet"];
     if (!surveyCompleted && publicPaths.includes(pathname)) {
       return NextResponse.redirect(
         new URL("/survey-guide", req.nextUrl.origin)
