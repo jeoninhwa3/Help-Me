@@ -14,6 +14,12 @@ import { useUser } from "@/context/UserContext";
 import axios from "axios";
 import { Survey } from "@/types";
 
+interface Meal {
+  menu: string;
+  ratio: string;
+  calories: string;
+}
+
 const SurveyPage = () => {
   const [height, setHeight] = useState<string>("");
   const [weight, setWeight] = useState<string>("");
@@ -68,7 +74,7 @@ const SurveyPage = () => {
 
         const diet = parseMealData(gptData);
 
-        const processMeal = (meal: any) => {
+        const processMeal = (meal: Meal) => {
           const extractCalories = (caloriesString: string): number | null => {
             const match = caloriesString.match(/\d+/);
             return match ? parseFloat(match[0]) : null;
@@ -197,7 +203,7 @@ const SurveyPage = () => {
     if (insertError) {
       console.log("설문조사 에러 =>", insertError);
     } else {
-      console.log("설문조사 성공 =>", data);
+      console.log("설문조사 성공 =>", data, surveyData);
       setSurveyData(data);
       if (data) {
         await fetchData(data);

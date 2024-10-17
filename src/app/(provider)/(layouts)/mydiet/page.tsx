@@ -9,6 +9,12 @@ import carbohydrate from "@/assets/icons/icon_carbohydrate.svg";
 import protein from "@/assets/icons/icon_protein.svg";
 import fat from "@/assets/icons/icon_fat.svg";
 
+interface Meal {
+  menu: string;
+  ratio: string;
+  calories: number | null;
+}
+
 const MyDietPage = () => {
   const supabase = createClient();
   const { user } = useUser() || {};
@@ -17,12 +23,6 @@ const MyDietPage = () => {
   const [dinner, setDinner] = useState<Meal[] | null>(null);
   const [totalCalories, setTotalCalories] = useState<string | null>(null);
 
-  interface Meal {
-    menu: string;
-    ratio: string;
-    calories: number | null;
-  }
-
   const getDietData = async () => {
     const { data: dietData, error } = await supabase
       .from("result")
@@ -30,10 +30,14 @@ const MyDietPage = () => {
       .eq("user_id", user?.user_id)
       .single();
 
-    setBreakfast(dietData?.breakfast);
-    setLunch(dietData?.lunch);
-    setDinner(dietData?.dinner);
-    setTotalCalories(dietData?.total_calorie);
+    if (error) {
+      console.log("식단 데이터 불러오기 오류", error);
+    } else {
+      setBreakfast(dietData?.breakfast);
+      setLunch(dietData?.lunch);
+      setDinner(dietData?.dinner);
+      setTotalCalories(dietData?.total_calorie);
+    }
   };
 
   useEffect(() => {
