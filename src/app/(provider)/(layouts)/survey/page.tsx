@@ -11,6 +11,8 @@ import StepSix from "./_components/StepSix";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { useUser } from "@/context/UserContext";
+import axios from "axios";
+import { Survey } from "@/types";
 
 const SurveyPage = () => {
   const [height, setHeight] = useState<string>("");
@@ -23,6 +25,7 @@ const SurveyPage = () => {
   const [purpose, setPurpose] = useState<string>("");
   const [allergies, setAllergies] = useState<string[]>(["없음"]);
   const { user } = useUser() || {};
+  const [surveyData, setSurveyData] = useState<Survey | null>(null);
 
   const [step, setStep] = useState(1);
   const totalSteps = 6;
@@ -37,7 +40,143 @@ const SurveyPage = () => {
       return console.log("로딩중");
     }
 
-    const { data: surveyData, error: insertError } = await supabase
+    const fetchData = async (surveyData: Survey) => {
+      try {
+        const res = await axios.post("/api/gpt", {
+          yearOfBirth: surveyData.year_of_birth,
+          gender: surveyData.gender,
+          height: surveyData.height,
+          weight: surveyData.weight,
+          muscle: surveyData.muscle,
+          bodyFat: surveyData.body_fat,
+          exercise: surveyData.exercise,
+          purpose: surveyData.purpose,
+          allergies: surveyData.allergies,
+          user_id: surveyData.user_id,
+        });
+
+        let gptData;
+        try {
+          gptData =
+            typeof res.data.data === "string"
+              ? res.data.data
+              : JSON.stringify(res.data.data);
+        } catch (parseError) {
+          console.log("JSON 파싱 에러:", parseError);
+          gptData = res.data.data;
+        }
+
+        const { breakfast, lunch, dinner, totalCalories } =
+          parseMealData(gptData);
+
+        console.log("파싱된 식사 데이터:", {
+          breakfast,
+          lunch,
+          dinner,
+          totalCalories,
+        });
+
+        const breakfastData = breakfast
+          ? [
+              {
+                menu: breakfast.menu,
+                calories: parseFloat(breakfast.calories), // 숫자 형식으로 변환
+                ratio: breakfast.ratio,
+              },
+            ]
+          : [];
+
+        const lunchData = lunch
+          ? [
+              {
+                menu: lunch.menu,
+                calories: parseFloat(lunch.calories), // 숫자 형식으로 변환
+                ratio: lunch.ratio,
+              },
+            ]
+          : [];
+
+        const dinnerData = dinner
+          ? [
+              {
+                menu: dinner.menu,
+                calories: parseFloat(dinner.calories), // 숫자 형식으로 변환
+                ratio: dinner.ratio,
+              },
+            ]
+          : [];
+        const totalCaloriesData = totalCalories
+          ? parseFloat(totalCalories.replace(/[^\d]/g, "")) // 숫자만 추출
+          : 0;
+
+        const { error } = await supabase.from("result").insert([
+          {
+            user_id: surveyData.user_id,
+            breakfast: breakfastData,
+            lunch: lunchData,
+            dinner: dinnerData,
+            total_calorie: totalCaloriesData,
+          },
+        ]);
+      } catch (error) {
+        console.log("gpt data error", error);
+      }
+    };
+
+    const parseMealData = (content: string) => {
+      const sections = content.split("\n");
+      const diet = {
+        breakfast: { menu: "", calories: "", ratio: "" },
+        lunch: { menu: "", calories: "", ratio: "" },
+        dinner: { menu: "", calories: "", ratio: "" },
+        totalCalories: "",
+      };
+
+      let currentMeal: {
+        menu: string;
+        calories: string;
+        ratio: string;
+      } | null = null;
+
+      sections.forEach((line) => {
+        if (line.startsWith("#")) {
+          currentMeal = diet.breakfast;
+          if (line.startsWith("#?메뉴:"))
+            currentMeal.menu += line.substring(7).trim() + "\n";
+          else if (line.startsWith("#-"))
+            currentMeal.menu += line.substring(1).trim() + "\n";
+          else if (line.startsWith("#$"))
+            currentMeal.ratio = line.substring(1).trim();
+          else if (line.startsWith("#&"))
+            currentMeal.calories = line.substring(1).trim();
+        } else if (line.startsWith("^")) {
+          currentMeal = diet.lunch;
+          if (line.startsWith("^?메뉴:"))
+            currentMeal.menu += line.substring(7).trim() + "\n";
+          else if (line.startsWith("^-"))
+            currentMeal.menu += line.substring(1).trim() + "\n";
+          else if (line.startsWith("^$"))
+            currentMeal.ratio = line.substring(1).trim();
+          else if (line.startsWith("^&"))
+            currentMeal.calories = line.substring(1).trim();
+        } else if (line.startsWith("!")) {
+          currentMeal = diet.dinner;
+          if (line.startsWith("!?메뉴:"))
+            currentMeal.menu += line.substring(7).trim() + "\n";
+          else if (line.startsWith("!-"))
+            currentMeal.menu += line.substring(1).trim() + "\n";
+          else if (line.startsWith("!$"))
+            currentMeal.ratio = line.substring(1).trim();
+          else if (line.startsWith("!&"))
+            currentMeal.calories = line.substring(1).trim();
+        } else if (line.startsWith("*"))
+          diet.totalCalories = line.substring(1).trim();
+      });
+
+      return diet;
+    };
+
+    const { data, error: insertError } = await supabase
       .from("survey")
       .insert({
         user_id: user.user_id,
@@ -49,13 +188,21 @@ const SurveyPage = () => {
         exercise,
         gender,
         purpose,
-        allergies,
-      });
+        allergies: Array.isArray(allergies)
+          ? JSON.stringify(allergies)
+          : allergies,
+      })
+      .select()
+      .single();
 
     if (insertError) {
       console.log("설문조사 에러 =>", insertError);
     } else {
-      console.log("설문조사 성공 =>", surveyData);
+      console.log("설문조사 성공 =>", data);
+      setSurveyData(data);
+      if (data) {
+        await fetchData(data);
+      }
     }
 
     const { data: surveyDoneData, error: surveyDoneError } = await supabase

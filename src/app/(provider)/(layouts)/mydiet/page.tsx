@@ -1,158 +1,55 @@
 "use client";
 
+import { useUser } from "@/context/UserContext";
+import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
+
 // import Image from "next/image";
 // import carbohydrate from "@/assets/icons/icon_carbohydrate.svg";
 // import protein from "@/assets/icons/icon_protein.svg";
 // import fat from "@/assets/icons/icon_fat.svg";
-import axios from "axios";
-import { useUser } from "@/context/UserContext";
-import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { Survey } from "@/types";
 
 const MyDietPage = () => {
   const supabase = createClient();
   const { user } = useUser() || {};
-  const [surveyData, setSurveyData] = useState(null);
+  const [breakfast, setBreakfast] = useState<Meal[] | null>(null);
+  const [lunch, setLunch] = useState(null);
+  const [dinner, setDinner] = useState(null);
+  const [totalCalories, setTotalCalories] = useState<string | null>(null);
 
-  const [breakfast, setBreakfast] = useState<string | undefined>(undefined);
-  const [lunch, setLunch] = useState<string | undefined>(undefined);
-  const [dinner, setDinner] = useState<string | undefined>(undefined);
-  const [totalCalories, setTotalCalories] = useState<string | undefined>(
-    undefined
-  );
+  interface Meal {
+    menu: string;
+    ratio: string;
+    calories: number | null;
+  }
 
-  const fetchSurveyData = async () => {
-    if (!user?.user_id) return;
-
-    const { data, error } = await supabase
-      .from("survey")
-      .select("*")
-      .eq("user_id", user.user_id)
+  const getDietData = async () => {
+    const { data: dietData, error } = await supabase
+      .from("result")
+      .select("breakfast, lunch, dinner, total_calorie")
+      .eq("user_id", user?.user_id)
       .single();
 
-    if (error) {
-      console.log("설문조사 데이터 가져오기 에러 =>", error);
-    } else {
-      setSurveyData(data);
-      console.log("가져온 설문 데이터 =>", surveyData);
-      await fetchData(data);
-    }
-  };
-
-  const fetchData = async (surveyData: Survey) => {
-    try {
-      const res = await axios.post("/api/gpt", {
-        yearOfBirth: surveyData.year_of_birth,
-        gender: surveyData.gender,
-        height: surveyData.height,
-        weight: surveyData.weight,
-        muscle: surveyData.muscle,
-        bodyFat: surveyData.body_fat,
-        exercise: surveyData.exercise,
-        purpose: surveyData.purpose,
-        allergies: surveyData.allergies,
-        user_id: surveyData.user_id,
-      });
-
-      let gptData;
-      try {
-        gptData =
-          typeof res.data.data === "string"
-            ? res.data.data
-            : JSON.stringify(res.data.data);
-      } catch (parseError) {
-        console.log("JSON 파싱 에러:", parseError);
-        gptData = res.data.data;
-      }
-
-      const { breakfast, lunch, dinner, totalCalories } =
-        parseMealData(gptData);
-
-      console.log("파싱된 식사 데이터:", {
-        breakfast,
-        lunch,
-        dinner,
-        totalCalories,
-      });
-
-      setBreakfast(
-        `Menu: ${breakfast.menu}, Calories: ${breakfast.calories}, Ratio: ${breakfast.ratio}`
-      );
-      setLunch(
-        `Menu: ${lunch.menu}, Calories: ${lunch.calories}, Ratio: ${lunch.ratio}`
-      );
-      setDinner(
-        `Menu: ${dinner.menu}, Calories: ${dinner.calories}, Ratio: ${dinner.ratio}`
-      );
-      setTotalCalories(`Total Calories: ${totalCalories}`);
-    } catch (error) {
-      console.log("gpt data error", error);
-    }
-  };
-
-  const parseMealData = (content: string) => {
-    const sections = content.split("\n");
-    const diet = {
-      breakfast: { menu: "", calories: "", ratio: "" },
-      lunch: { menu: "", calories: "", ratio: "" },
-      dinner: { menu: "", calories: "", ratio: "" },
-      totalCalories: "",
-    };
-
-    let currentMeal: { menu: string; calories: string; ratio: string } | null =
-      null;
-
-    sections.forEach((line) => {
-      if (line.startsWith("#")) {
-        currentMeal = diet.breakfast;
-        if (line.startsWith("#?메뉴:"))
-          currentMeal.menu += line.substring(7).trim() + "\n";
-        else if (line.startsWith("#-"))
-          currentMeal.menu += line.substring(1).trim() + "\n";
-        else if (line.startsWith("#$"))
-          currentMeal.ratio = line.substring(1).trim();
-        else if (line.startsWith("#&"))
-          currentMeal.calories = line.substring(1).trim();
-      } else if (line.startsWith("^")) {
-        currentMeal = diet.lunch;
-        if (line.startsWith("^?메뉴:"))
-          currentMeal.menu += line.substring(7).trim() + "\n";
-        else if (line.startsWith("^-"))
-          currentMeal.menu += line.substring(1).trim() + "\n";
-        else if (line.startsWith("^$"))
-          currentMeal.ratio = line.substring(1).trim();
-        else if (line.startsWith("^&"))
-          currentMeal.calories = line.substring(1).trim();
-      } else if (line.startsWith("!")) {
-        currentMeal = diet.dinner;
-        if (line.startsWith("!?메뉴:"))
-          currentMeal.menu += line.substring(7).trim() + "\n";
-        else if (line.startsWith("!-"))
-          currentMeal.menu += line.substring(1).trim() + "\n";
-        else if (line.startsWith("!$"))
-          currentMeal.ratio = line.substring(1).trim();
-        else if (line.startsWith("!&"))
-          currentMeal.calories = line.substring(1).trim();
-      } else if (line.startsWith("*"))
-        diet.totalCalories = line.substring(1).trim();
-    });
-
-    return diet;
+    setBreakfast(dietData?.breakfast);
+    setLunch(dietData?.lunch);
+    setDinner(dietData?.dinner);
+    setTotalCalories(dietData?.total_calorie);
   };
 
   useEffect(() => {
-    fetchSurveyData();
+    if (user?.user_id) {
+      getDietData();
+    }
   }, [user]);
 
   return (
     <div>
       <h2>나만의 식단</h2>
       <div>
-        <p className="mt-5">{breakfast}</p>
-        <p className="mt-5">{lunch}</p>
+        {breakfast ? <p className="mt-5">{breakfast?.[0].menu}</p> : ""}
+        {/* <p className="mt-5">{lunch}</p>
         <p className="mt-5">{dinner}</p>
-        <p className="mt-5">{totalCalories}</p>
+        <p className="mt-5">{totalCalories}</p> */}
       </div>
     </div>
     // <div className="py-6">
