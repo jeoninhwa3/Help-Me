@@ -8,10 +8,17 @@ import StepThree from "./_components/StepThree";
 import StepFour from "./_components/StepFour";
 import StepFive from "./_components/StepFive";
 import StepSix from "./_components/StepSix";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { useUser } from "@/context/UserContext";
+import axios from "axios";
+import { Survey } from "@/types";
+
+interface Meal {
+  menu: string;
+  ratio: string;
+  calories: string;
+}
 
 const SurveyPage = () => {
   const [height, setHeight] = useState<string>("");
@@ -24,6 +31,7 @@ const SurveyPage = () => {
   const [purpose, setPurpose] = useState<string>("");
   const [allergies, setAllergies] = useState<string[]>(["없음"]);
   const { user } = useUser() || {};
+  const [surveyData, setSurveyData] = useState<Survey | null>(null);
 
   const [step, setStep] = useState(1);
   const totalSteps = 6;
@@ -34,31 +42,146 @@ const SurveyPage = () => {
   const supabase = createClient();
 
   const handleSubmitSurvey = async () => {
-    const fetchData = async () => {
+    if (!user?.user_id) {
+      return console.log("로딩중");
+    }
+
+    const fetchData = async (surveyData: Survey) => {
       try {
-        const res = await axios.post("api/gpt", {
-          user_id: user?.user_id,
-          height,
-          weight,
-          muscle,
-          bodyFat,
-          yearOfBirth,
-          exercise,
-          gender,
-          purpose,
-          allergies,
+        const res = await axios.post("/api/gpt", {
+          yearOfBirth: surveyData.year_of_birth,
+          gender: surveyData.gender,
+          height: surveyData.height,
+          weight: surveyData.weight,
+          muscle: surveyData.muscle,
+          bodyFat: surveyData.body_fat,
+          exercise: surveyData.exercise,
+          purpose: surveyData.purpose,
+          allergies: surveyData.allergies,
+          user_id: surveyData.user_id,
         });
-        console.log(res.data);
+
+        let gptData;
+        try {
+          gptData =
+            typeof res.data.data === "string"
+              ? res.data.data
+              : JSON.stringify(res.data.data);
+        } catch (parseError) {
+          console.log("JSON 파싱 에러:", parseError);
+          gptData = res.data.data;
+        }
+
+        const diet = parseMealData(gptData);
+
+        const processMeal = (meal: Meal) => {
+          const extractCalories = (caloriesString: string): number | null => {
+            const match = caloriesString.match(/\d+/);
+            return match ? parseFloat(match[0]) : null;
+          };
+
+          const extractRatios = (ratioString: string): number[] => {
+            const match = ratioString.match(/\d+/g);
+            return match ? match.map(Number) : [];
+          };
+
+          return meal
+            ? {
+                menu: meal.menu,
+                calories: extractCalories(meal.calories),
+                ratio: extractRatios(meal.ratio),
+              }
+            : null;
+        };
+
+        const breakfastData = diet.breakfast
+          ? [processMeal(diet.breakfast)]
+          : [];
+        const lunchData = diet.lunch ? [processMeal(diet.lunch)] : [];
+        const dinnerData = diet.dinner ? [processMeal(diet.dinner)] : [];
+
+        const totalCaloriesData = diet.totalCalories
+          ? parseFloat(diet.totalCalories.replace(/[^\d]/g, ""))
+          : 0;
+
+        const { error } = await supabase.from("result").insert([
+          {
+            user_id: surveyData.user_id,
+            breakfast: breakfastData,
+            lunch: lunchData,
+            dinner: dinnerData,
+            total_calorie: totalCaloriesData,
+          },
+        ]);
+
+        if (error) {
+          console.error("Insert Error:", error.message);
+        }
       } catch (error) {
         console.log("gpt data error", error);
       }
     };
 
-    if (!user?.user_id) {
-      return console.log("로딩중");
-    }
+    const parseMealData = (content: string) => {
+      const diet = {
+        breakfast: { menu: "", calories: "", ratio: "" },
+        lunch: { menu: "", calories: "", ratio: "" },
+        dinner: { menu: "", calories: "", ratio: "" },
+        totalCalories: "",
+      };
 
-    const { data: surveyData, error: insertError } = await supabase
+      let currentMeal: {
+        menu: string;
+        calories: string;
+        ratio: string;
+      } | null = null;
+
+      content.split("\n").forEach((line) => {
+        if (line.startsWith("#")) {
+          currentMeal = diet.breakfast;
+        } else if (line.startsWith("^")) {
+          currentMeal = diet.lunch;
+        } else if (line.startsWith("!")) {
+          currentMeal = diet.dinner;
+        }
+
+        if (currentMeal) {
+          if (
+            line.startsWith("#?메뉴:") ||
+            line.startsWith("^?메뉴:") ||
+            line.startsWith("!?메뉴:")
+          ) {
+            currentMeal.menu += line.substring(7).trim() + "\n";
+          } else if (
+            line.startsWith("#-") ||
+            line.startsWith("^-") ||
+            line.startsWith("!-")
+          ) {
+            currentMeal.menu += line.substring(1).trim() + "\n";
+          } else if (
+            line.startsWith("#$") ||
+            line.startsWith("^$") ||
+            line.startsWith("!$")
+          ) {
+            currentMeal.ratio = line.substring(1).trim();
+          } else if (
+            line.startsWith("#&") ||
+            line.startsWith("^&") ||
+            line.startsWith("!&")
+          ) {
+            currentMeal.calories = line.substring(1).trim();
+          }
+        }
+
+        if (line.startsWith("*")) {
+          diet.totalCalories = line.substring(1).trim();
+        }
+      });
+
+      return diet;
+    };
+
+    const { data, error: insertError } = await supabase
       .from("survey")
       .insert({
         user_id: user.user_id,
@@ -70,13 +193,21 @@ const SurveyPage = () => {
         exercise,
         gender,
         purpose,
-        allergies,
-      });
+        allergies: Array.isArray(allergies)
+          ? JSON.stringify(allergies)
+          : allergies,
+      })
+      .select()
+      .single();
 
     if (insertError) {
       console.log("설문조사 에러 =>", insertError);
     } else {
-      console.log("설문조사 성공 =>", surveyData);
+      console.log("설문조사 성공 =>", data, surveyData);
+      setSurveyData(data);
+      if (data) {
+        await fetchData(data);
+      }
     }
 
     const { data: surveyDoneData, error: surveyDoneError } = await supabase
@@ -91,8 +222,6 @@ const SurveyPage = () => {
     }
 
     router.push("/mydiet");
-
-    fetchData();
   };
 
   return (
