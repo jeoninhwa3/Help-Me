@@ -99,7 +99,6 @@ const HeaderNav = () => {
                   님
                 </p>
               </li>
-              {/* 링크태그 추가하기 */}
               <li
                 className="p-3 mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
@@ -107,16 +106,20 @@ const HeaderNav = () => {
                 <Link href="/mydiet">나만의 식단</Link>
               </li>
               <li
-                className="p-3 mt-1 text-gray900 text-sm"
+                className="mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
               >
-                커뮤니티
+                <Link href="/community" className="block p-3">
+                  커뮤니티
+                </Link>
               </li>
               <li
-                className="p-3 mt-1 text-gray900 text-sm"
+                className="mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
               >
-                나의 프로필
+                <Link href="/mypage" className="block p-3">
+                  나의 프로필
+                </Link>
               </li>
               <li className="p-3 mt-1 text-gray900 text-sm">
                 <button type="button" onClick={handleLogOut}>
@@ -134,16 +137,20 @@ const HeaderNav = () => {
               className="absolute top-16 right-5 p-2 rounded-lg bg-white shadow-header-floating z-10"
             >
               <li
-                className="p-3 mt-1 text-gray900 text-sm"
+                className="mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
               >
-                <Link href="/mydiet">나만의 식단</Link>
+                <Link href="/mydiet" className="block p-3">
+                  나만의 식단
+                </Link>
               </li>
               <li
-                className="p-3 mt-1 text-gray900 text-sm"
+                className="mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
               >
-                커뮤니티
+                <Link href="/community" className="block p-3">
+                  커뮤니티
+                </Link>
               </li>
               <li className="p-3 mt-1 text-gray900 text-sm">
                 <button type="button" onClick={handleLogIn}>
