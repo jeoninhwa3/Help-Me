@@ -66,47 +66,36 @@ const SurveyPage = () => {
           gptData = res.data.data;
         }
 
-        const { breakfast, lunch, dinner, totalCalories } =
-          parseMealData(gptData);
+        const diet = parseMealData(gptData);
 
-        console.log("파싱된 식사 데이터:", {
-          breakfast,
-          lunch,
-          dinner,
-          totalCalories,
-        });
+        const processMeal = (meal: any) => {
+          const extractCalories = (caloriesString: string): number | null => {
+            const match = caloriesString.match(/\d+/);
+            return match ? parseFloat(match[0]) : null;
+          };
 
-        const breakfastData = breakfast
-          ? [
-              {
-                menu: breakfast.menu,
-                calories: parseFloat(breakfast.calories), // 숫자 형식으로 변환
-                ratio: breakfast.ratio,
-              },
-            ]
+          const extractRatios = (ratioString: string): number[] => {
+            const match = ratioString.match(/\d+/g);
+            return match ? match.map(Number) : [];
+          };
+
+          return meal
+            ? {
+                menu: meal.menu,
+                calories: extractCalories(meal.calories),
+                ratio: extractRatios(meal.ratio),
+              }
+            : null;
+        };
+
+        const breakfastData = diet.breakfast
+          ? [processMeal(diet.breakfast)]
           : [];
+        const lunchData = diet.lunch ? [processMeal(diet.lunch)] : [];
+        const dinnerData = diet.dinner ? [processMeal(diet.dinner)] : [];
 
-        const lunchData = lunch
-          ? [
-              {
-                menu: lunch.menu,
-                calories: parseFloat(lunch.calories), // 숫자 형식으로 변환
-                ratio: lunch.ratio,
-              },
-            ]
-          : [];
-
-        const dinnerData = dinner
-          ? [
-              {
-                menu: dinner.menu,
-                calories: parseFloat(dinner.calories), // 숫자 형식으로 변환
-                ratio: dinner.ratio,
-              },
-            ]
-          : [];
-        const totalCaloriesData = totalCalories
-          ? parseFloat(totalCalories.replace(/[^\d]/g, "")) // 숫자만 추출
+        const totalCaloriesData = diet.totalCalories
+          ? parseFloat(diet.totalCalories.replace(/[^\d]/g, ""))
           : 0;
 
         const { error } = await supabase.from("result").insert([
@@ -118,13 +107,16 @@ const SurveyPage = () => {
             total_calorie: totalCaloriesData,
           },
         ]);
+
+        if (error) {
+          console.error("Insert Error:", error.message);
+        }
       } catch (error) {
         console.log("gpt data error", error);
       }
     };
 
     const parseMealData = (content: string) => {
-      const sections = content.split("\n");
       const diet = {
         breakfast: { menu: "", calories: "", ratio: "" },
         lunch: { menu: "", calories: "", ratio: "" },
@@ -138,39 +130,46 @@ const SurveyPage = () => {
         ratio: string;
       } | null = null;
 
-      sections.forEach((line) => {
+      content.split("\n").forEach((line) => {
         if (line.startsWith("#")) {
           currentMeal = diet.breakfast;
-          if (line.startsWith("#?메뉴:"))
-            currentMeal.menu += line.substring(7).trim() + "\n";
-          else if (line.startsWith("#-"))
-            currentMeal.menu += line.substring(1).trim() + "\n";
-          else if (line.startsWith("#$"))
-            currentMeal.ratio = line.substring(1).trim();
-          else if (line.startsWith("#&"))
-            currentMeal.calories = line.substring(1).trim();
         } else if (line.startsWith("^")) {
           currentMeal = diet.lunch;
-          if (line.startsWith("^?메뉴:"))
-            currentMeal.menu += line.substring(7).trim() + "\n";
-          else if (line.startsWith("^-"))
-            currentMeal.menu += line.substring(1).trim() + "\n";
-          else if (line.startsWith("^$"))
-            currentMeal.ratio = line.substring(1).trim();
-          else if (line.startsWith("^&"))
-            currentMeal.calories = line.substring(1).trim();
         } else if (line.startsWith("!")) {
           currentMeal = diet.dinner;
-          if (line.startsWith("!?메뉴:"))
+        }
+
+        if (currentMeal) {
+          if (
+            line.startsWith("#?메뉴:") ||
+            line.startsWith("^?메뉴:") ||
+            line.startsWith("!?메뉴:")
+          ) {
             currentMeal.menu += line.substring(7).trim() + "\n";
-          else if (line.startsWith("!-"))
+          } else if (
+            line.startsWith("#-") ||
+            line.startsWith("^-") ||
+            line.startsWith("!-")
+          ) {
             currentMeal.menu += line.substring(1).trim() + "\n";
-          else if (line.startsWith("!$"))
+          } else if (
+            line.startsWith("#$") ||
+            line.startsWith("^$") ||
+            line.startsWith("!$")
+          ) {
             currentMeal.ratio = line.substring(1).trim();
-          else if (line.startsWith("!&"))
+          } else if (
+            line.startsWith("#&") ||
+            line.startsWith("^&") ||
+            line.startsWith("!&")
+          ) {
             currentMeal.calories = line.substring(1).trim();
-        } else if (line.startsWith("*"))
+          }
+        }
+
+        if (line.startsWith("*")) {
           diet.totalCalories = line.substring(1).trim();
+        }
       });
 
       return diet;
