@@ -46,8 +46,8 @@ const StepTwo = ({
   };
 
   return (
-    <div className="text-center">
-      <div className="flex flex-col mt-7">
+    <div className="max-w-[400px] mx-auto text-center">
+      <div className="flex flex-col mt-7 md:mt-10">
         <p className="mb-1 text-gray900 text-xl font-semibold">
           골격근량과 체지방률을 입력해 주세요
         </p>

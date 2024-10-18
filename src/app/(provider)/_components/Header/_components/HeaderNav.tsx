@@ -62,10 +62,10 @@ const HeaderNav = () => {
   }, []);
 
   return (
-    <nav>
+    <nav className="relative">
       <button
         type="button"
-        className="px-1 py-2"
+        className="px-1"
         onClick={handleDropDown}
         ref={buttonRef}
       >
@@ -81,7 +81,7 @@ const HeaderNav = () => {
           {isDropdownOpen && (
             <ul
               ref={dropdownRef}
-              className="absolute top-16 right-5 p-2 rounded-lg bg-white shadow-header-floating z-10"
+              className="absolute top-[52px] right-0 w-[180px] p-2 rounded-lg bg-white shadow-header-floating z-10"
             >
               <li className="flex p-3 text-gray900">
                 <Image
@@ -100,10 +100,12 @@ const HeaderNav = () => {
                 </p>
               </li>
               <li
-                className="p-3 mt-1 text-gray900 text-sm"
+                className="mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
               >
-                <Link href="/mydiet">나만의 식단</Link>
+                <Link href="/mydiet" className="block p-3 w-full">
+                  나만의 식단
+                </Link>
               </li>
               <li
                 className="mt-1 text-gray900 text-sm"
@@ -134,7 +136,7 @@ const HeaderNav = () => {
           {isDropdownOpen && (
             <ul
               ref={dropdownRef}
-              className="absolute top-16 right-5 p-2 rounded-lg bg-white shadow-header-floating z-10"
+              className="absolute top-[52px] right-0 w-[142px] p-2 rounded-lg bg-white shadow-header-floating z-10"
             >
               <li
                 className="mt-1 text-gray900 text-sm"

@@ -13,8 +13,8 @@ const StepFour = ({ nextStep, prevStep, gender, setGender }: StepFourProps) => {
   };
 
   return (
-    <div className="text-center">
-      <div className="mt-7 mb-5">
+    <div className="max-w-[400px] mx-auto text-center">
+      <div className="mt-7 mb-5 md:mt-10">
         <p className="mb-1 text-gray900 text-xl font-semibold">
           성별을 선택해 주세요
         </p>
@@ -29,7 +29,9 @@ const StepFour = ({ nextStep, prevStep, gender, setGender }: StepFourProps) => {
           checked={gender === "남자"}
           onChange={handleGenderChange}
         />
-        <label htmlFor="gender1">남자</label>
+        <label htmlFor="gender1" className="cursor-pointer">
+          남자
+        </label>
 
         <input
           id="gender2"
@@ -38,7 +40,7 @@ const StepFour = ({ nextStep, prevStep, gender, setGender }: StepFourProps) => {
           checked={gender === "여자"}
           onChange={handleGenderChange}
         />
-        <label htmlFor="gender2" className="mt-6">
+        <label htmlFor="gender2" className="mt-6 cursor-pointer">
           여자
         </label>
       </div>

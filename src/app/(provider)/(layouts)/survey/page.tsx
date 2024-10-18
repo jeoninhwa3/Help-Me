@@ -225,7 +225,7 @@ const SurveyPage = () => {
   };
 
   return (
-    <div className="pt-10">
+    <div className="pt-10 md:pt-20">
       <ProgressBar step={step} totalSteps={totalSteps} />
 
       {step === 1 && (

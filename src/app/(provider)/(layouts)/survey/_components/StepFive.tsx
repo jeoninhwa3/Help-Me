@@ -18,8 +18,8 @@ const StepFive = ({
   };
 
   return (
-    <div className="text-center">
-      <div className="mt-7 mb-5">
+    <div className="max-w-[400px] mx-auto text-center">
+      <div className="mt-7 mb-5 md:mt-10">
         <p className="mb-1 text-gray900 text-xl font-semibold">
           식단을 통해 <br /> 이루고 싶은 목표를 알려주세요
         </p>
@@ -34,7 +34,9 @@ const StepFive = ({
           checked={purpose === "체중을 감량하고 싶어요"}
           onChange={handlePurposeChange}
         />
-        <label htmlFor="purpose1">체중을 감량하고 싶어요</label>
+        <label htmlFor="purpose1" className="cursor-pointer">
+          체중을 감량하고 싶어요
+        </label>
 
         <input
           id="purpose2"
@@ -43,7 +45,7 @@ const StepFive = ({
           checked={purpose === "체중을 증량하고 싶어요"}
           onChange={handlePurposeChange}
         />
-        <label htmlFor="purpose2" className="mt-4">
+        <label htmlFor="purpose2" className="mt-4 cursor-pointer">
           체중을 증량하고 싶어요
         </label>
 
@@ -54,7 +56,7 @@ const StepFive = ({
           checked={purpose === "건강한 식사를 하고 싶어요"}
           onChange={handlePurposeChange}
         />
-        <label htmlFor="purpose3" className="mt-4">
+        <label htmlFor="purpose3" className="mt-4 cursor-pointer">
           건강한 식사를 하고 싶어요
         </label>
       </div>

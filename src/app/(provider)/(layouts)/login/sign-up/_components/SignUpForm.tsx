@@ -24,7 +24,7 @@ const SignUpForm = () => {
   const validateNickname = (nickname: string) =>
     /^[a-zA-Z0-9가-힣]+$/.test(nickname) &&
     Array.from(nickname).length >= 2 &&
-    Array.from(nickname).length <= 10;
+    Array.from(nickname).length <= 6;
 
   const handleValidateEmail = (value: string) => {
     if (!validateEmail(value)) {
@@ -37,7 +37,7 @@ const SignUpForm = () => {
 
   const handleValidateNickname = (value: string) => {
     if (!validateNickname(value)) {
-      setNicknameError("닉네임은 2자 이상 10자 이하로 입력해 주세요.");
+      setNicknameError("닉네임은 2자 이상 6자 이하로 입력해 주세요.");
     } else {
       setNicknameError(null);
     }
@@ -46,9 +46,7 @@ const SignUpForm = () => {
 
   const handleValidatePassword = (value: string) => {
     if (!validatePassword(value)) {
-      setPasswordError(
-        "비밀번호는 최소 6자 이상, 영문자와 숫자를 포함해야 합니다."
-      );
+      setPasswordError("비밀번호는 6자 이상, 영문자와 숫자를 포함해야 합니다.");
     } else {
       setPasswordError(null);
     }
@@ -78,7 +76,7 @@ const SignUpForm = () => {
 
   return (
     <form onSubmit={handleSignUpSubmit}>
-      <div className="flex flex-col mt-3 text-left">
+      <div className="flex flex-col relative mt-3 text-left">
         <label className="text-gray900 text-sm" htmlFor="user-email">
           이메일
         </label>
@@ -91,12 +89,12 @@ const SignUpForm = () => {
           onChange={(e) => handleValidateEmail(e.target.value)}
         />
         {emailError && (
-          <p className="text-backgroundError mt-1 -mb-3 text-sm">
+          <p className="absolute -bottom-2 text-backgroundError mt-1 -mb-3 text-sm">
             {emailError}
           </p>
         )}
       </div>
-      <div className="flex flex-col mt-6 text-left">
+      <div className="flex flex-col relative mt-6 text-left">
         <label className="text-gray900 text-sm" htmlFor="user-nickname">
           닉네임
         </label>
@@ -109,12 +107,12 @@ const SignUpForm = () => {
           onChange={(e) => handleValidateNickname(e.target.value)}
         />
         {nicknameError && (
-          <p className="text-backgroundError mt-1 -mb-3 text-sm">
+          <p className="absolute -bottom-2 text-backgroundError mt-1 -mb-3 text-sm">
             {nicknameError}
           </p>
         )}
       </div>
-      <div className="flex flex-col mt-6 text-left">
+      <div className="flex flex-col relative mt-6 text-left">
         <label className="text-gray900 text-sm" htmlFor="user-password">
           비밀번호
         </label>
@@ -127,7 +125,7 @@ const SignUpForm = () => {
           onChange={(e) => handleValidatePassword(e.target.value)}
         />
         {passwordError && (
-          <p className="text-backgroundError mt-1 -mb-3 text-sm">
+          <p className="absolute -bottom-2 text-backgroundError mt-1 -mb-3 text-sm">
             {passwordError}
           </p>
         )}

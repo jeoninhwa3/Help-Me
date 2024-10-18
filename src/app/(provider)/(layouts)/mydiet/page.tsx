@@ -47,7 +47,7 @@ const MyDietPage = () => {
   }, [user]);
 
   return (
-    <div className="py-6">
+    <div className="py-6 lg:py-10">
       <h3 className="text-gray900 font-semibold text-xl">오늘의 추천 식단</h3>
       <p className="mt-1 text-gray600 text-sm">
         AI 분석을 바탕으로 맞춤 식단을 추천해 드려요
@@ -168,7 +168,7 @@ const MyDietPage = () => {
         입니다.
       </p>
 
-      <ul className="p-4 mt-10 rounded-xl bg-white md:bg-inherit">
+      <ul className="p-4 mt-6 rounded-xl bg-white md:bg-inherit">
         <li>
           <strong className="text-gray900 text-sm font-semibold">
             추가 팁
