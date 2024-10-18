@@ -14,6 +14,7 @@ interface ButtonProps {
   padding?: string;
   disabled?: boolean;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
+  type?: "button" | "submit" | "reset";
 }
 
 const styles = {
@@ -34,6 +35,7 @@ const Button = ({
   padding,
   disabled,
   onClick,
+  type,
 }: ButtonProps) => {
   return (
     <button
@@ -42,7 +44,7 @@ const Button = ({
       }`}
       disabled={disabled ? disabled : false}
       onClick={onClick}
-      type="button"
+      type={type ? type : "button"}
     >
       {buttonName}
     </button>

@@ -14,6 +14,12 @@ export const middleware = async (req: NextRequest) => {
     return NextResponse.redirect(new URL("/", req.nextUrl.origin));
   }
 
+  // 비로그인 시 접근할 수 없는 페이지
+  const protectedPaths = ["/mydiet"];
+  if (protectedPaths.includes(pathname) && !user) {
+    return NextResponse.redirect(new URL("/login", req.nextUrl.origin));
+  }
+
   if (userId) {
     const { data: surveyData } = await supabase
       .from("users")
@@ -30,8 +36,8 @@ export const middleware = async (req: NextRequest) => {
     }
 
     // 설문조사 미완료 시 접근할 수 없는 페이지
-    const publicPaths = ["/mypage", "/mydiet"];
-    if (!surveyCompleted && publicPaths.includes(pathname)) {
+    const authRequiredPaths = ["/mypage", "/mydiet"];
+    if (!surveyCompleted && authRequiredPaths.includes(pathname)) {
       return NextResponse.redirect(
         new URL("/survey-guide", req.nextUrl.origin)
       );

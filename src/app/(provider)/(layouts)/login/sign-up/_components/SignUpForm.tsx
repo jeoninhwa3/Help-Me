@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/Button";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -14,6 +15,7 @@ const SignUpForm = () => {
   const [emailError, setEmailError] = useState<string | null>(null);
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [emptyError, setEmptyError] = useState<string | null>(null);
 
   const validateEmail = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -33,6 +35,10 @@ const SignUpForm = () => {
       setEmailError(null);
     }
     setEmail(value);
+
+    if (email || nickname || password) {
+      setEmptyError(null);
+    }
   };
 
   const handleValidateNickname = (value: string) => {
@@ -42,6 +48,10 @@ const SignUpForm = () => {
       setNicknameError(null);
     }
     setNickname(value);
+
+    if (email || nickname || password) {
+      setEmptyError(null);
+    }
   };
 
   const handleValidatePassword = (value: string) => {
@@ -51,10 +61,20 @@ const SignUpForm = () => {
       setPasswordError(null);
     }
     setPassword(value);
+
+    if (email || nickname || password) {
+      setEmptyError(null);
+    }
   };
 
   const handleSignUpSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!email && !nickname && !password) {
+      setEmptyError("세 항목 모두 작성해 주세요.");
+    } else {
+      setEmptyError(null);
+    }
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -112,7 +132,7 @@ const SignUpForm = () => {
           </p>
         )}
       </div>
-      <div className="flex flex-col relative mt-6 text-left">
+      <div className="flex flex-col relative mt-6 text-left mb-10">
         <label className="text-gray900 text-sm" htmlFor="user-password">
           비밀번호
         </label>
@@ -129,14 +149,20 @@ const SignUpForm = () => {
             {passwordError}
           </p>
         )}
+        {emptyError && (
+          <p className="absolute -bottom-[25px] text-backgroundError mt-1 -mb-3 text-sm">
+            {emptyError}
+          </p>
+        )}
       </div>
 
-      <button
-        className="w-[320px] leading-5 mt-8 py-4 bg-pramary500 text-white border border-solid rounded-lg"
+      <Button
+        buttonName="완료"
+        theme="primaryGradient"
+        width="w-[320px]"
+        padding="py-4"
         type="submit"
-      >
-        완료
-      </button>
+      ></Button>
     </form>
   );
 };
