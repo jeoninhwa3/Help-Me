@@ -181,47 +181,50 @@ const SurveyPage = () => {
       return diet;
     };
 
-    const { data, error: insertError } = await supabase
-      .from("survey")
-      .insert({
-        user_id: user.user_id,
-        height,
-        weight,
-        muscle,
-        body_fat: bodyFat,
-        year_of_birth: yearOfBirth,
-        exercise,
-        gender,
-        purpose,
-        allergies: Array.isArray(allergies)
-          ? JSON.stringify(allergies)
-          : allergies,
-      })
-      .select()
-      .single();
+    try {
+      const { data, error: insertError } = await supabase
+        .from("survey")
+        .insert({
+          user_id: user.user_id,
+          height,
+          weight,
+          muscle,
+          body_fat: bodyFat,
+          year_of_birth: yearOfBirth,
+          exercise,
+          gender,
+          purpose,
+          allergies: Array.isArray(allergies)
+            ? JSON.stringify(allergies)
+            : allergies,
+        })
+        .select()
+        .single();
 
-    if (insertError) {
-      console.log("설문조사 에러 =>", insertError);
-    } else {
-      console.log("설문조사 성공 =>", data, surveyData);
-      setSurveyData(data);
-      if (data) {
-        await fetchData(data);
+      if (insertError) {
+        console.log("설문조사 에러 =>", insertError);
+      } else {
+        console.log("설문조사 성공 =>", data, surveyData);
+        setSurveyData(data);
+        if (data) {
+          await fetchData(data);
+        }
       }
+
+      const { data: surveyDoneData, error: surveyDoneError } = await supabase
+        .from("users")
+        .update({ is_survey_done: true })
+        .eq("user_id", user.user_id);
+
+      if (surveyDoneError) {
+        console.log("is_survey_done error", surveyDoneError);
+      } else {
+        console.log("is_survey_done 성공", surveyDoneData);
+        router.push("/mydiet");
+      }
+    } catch (error) {
+      console.error("설문 저장 및 처리 중 에러", error);
     }
-
-    const { data: surveyDoneData, error: surveyDoneError } = await supabase
-      .from("users")
-      .update({ is_survey_done: true })
-      .eq("user_id", user.user_id);
-
-    if (surveyDoneError) {
-      console.log("is_survey_done error", surveyDoneError);
-    } else {
-      console.log("is_survey_done 성공", surveyDoneData);
-    }
-
-    router.push("/mydiet");
   };
 
   return (
