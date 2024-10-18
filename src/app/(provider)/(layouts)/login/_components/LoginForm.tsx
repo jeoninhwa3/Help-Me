@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/Button";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -60,7 +61,7 @@ const LoginForm = () => {
           </p>
         )}
       </div>
-      <div className="flex flex-col relative mt-[30px] text-left">
+      <div className="flex flex-col relative mt-[30px] mb-10 text-left">
         <label className="text-gray900 text-sm" htmlFor="user-password">
           비밀번호
         </label>
@@ -78,12 +79,13 @@ const LoginForm = () => {
           </p>
         )}
       </div>
-      <button
-        className="w-[320px] leading-5 mt-10 py-4 bg-pramary500 text-white border border-solid rounded-lg"
+      <Button
+        buttonName="로그인"
+        theme="primaryGradient"
+        width="w-[320px]"
+        padding="py-4"
         type="submit"
-      >
-        로그인
-      </button>
+      ></Button>
     </form>
   );
 };
