@@ -1,7 +1,6 @@
 import MainAos from "./_components/MainAos";
 import MainSwiper from "./_components/MainSwiper";
 import MainReverseSwiper from "./_components/MainReverseSwiper";
-import Button from "@/components/Button";
 import MainContents from "./_components/MainContents";
 import MainBanner from "./_components/MainBanner";
 
