@@ -107,14 +107,14 @@ const HeaderNav = () => {
                   나만의 식단
                 </Link>
               </li>
-              <li
+              {/* <li
                 className="mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
               >
                 <Link href="/community" className="block p-3">
                   커뮤니티
                 </Link>
-              </li>
+              </li> */}
               <li
                 className="mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
@@ -146,14 +146,14 @@ const HeaderNav = () => {
                   나만의 식단
                 </Link>
               </li>
-              <li
+              {/* <li
                 className="mt-1 text-gray900 text-sm"
                 onClick={handleCloseDropdown}
               >
                 <Link href="/community" className="block p-3">
                   커뮤니티
                 </Link>
-              </li>
+              </li> */}
               <li className="p-3 mt-1 text-gray900 text-sm">
                 <button type="button" onClick={handleLogIn}>
                   로그인
