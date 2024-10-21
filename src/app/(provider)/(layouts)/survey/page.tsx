@@ -13,6 +13,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useUser } from "@/context/UserContext";
 import axios from "axios";
 import { Survey } from "@/types";
+import MydietLoading from "../mydiet/_components/MydietLoading";
 
 interface Meal {
   menu: string;
@@ -33,6 +34,7 @@ const SurveyPage = () => {
   const { user } = useUser() || {};
   const [surveyData, setSurveyData] = useState<Survey | null>(null);
 
+  const [loading, setLoading] = useState(true);
   const [step, setStep] = useState(1);
   const totalSteps = 6;
   const nextStep = () => setStep((prev) => Math.min(prev + 1, totalSteps));
@@ -45,6 +47,8 @@ const SurveyPage = () => {
     if (!user?.user_id) {
       return console.log("로딩중");
     }
+
+    setLoading(false);
 
     const fetchData = async (surveyData: Survey) => {
       try {
@@ -220,12 +224,20 @@ const SurveyPage = () => {
         console.log("is_survey_done error", surveyDoneError);
       } else {
         console.log("is_survey_done 성공", surveyDoneData);
-        router.push("/mydiet");
+        setTimeout(() => {
+          router.push("/mydiet");
+        }, 500);
       }
     } catch (error) {
       console.error("설문 저장 및 처리 중 에러", error);
     }
+
+    setLoading(true);
   };
+
+  if (!loading) {
+    return <MydietLoading />;
+  }
 
   return (
     <div className="pt-10 md:pt-20">

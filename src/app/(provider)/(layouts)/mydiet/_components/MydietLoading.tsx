@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import MydietLottie from "./mydietLottie";
+import MydietLottie from "./MydietLottie";
 
 const MydietLoading = () => {
   const [message, setMessage] = useState<string>("");
@@ -22,10 +22,8 @@ const MydietLoading = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center mt-20">
-      <div className="w-48 h-48">
-        <MydietLottie />
-      </div>
+    <div className="flex flex-col justify-center items-center pt-20">
+      <MydietLottie />
       <div className="mt-8 text-center">
         <p className="text-2xl font-medium">
           AI가 나만을 위한 맞춤 식단과 <br />
