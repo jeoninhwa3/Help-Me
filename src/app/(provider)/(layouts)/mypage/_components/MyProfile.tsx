@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import defaultProfileImg from "@/assets/images/img_default_profile.jpg";
 import { useRouter } from "next/navigation";
+import Loading from "@/app/(provider)/_components/Loading/Loading";
 
 const MyProfile = () => {
   const supabase = createClient();
@@ -18,6 +19,7 @@ const MyProfile = () => {
   });
   const [purpose, setPurpose] = useState("");
   const [bmi, setBmi] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const handleEditProfile = () => {
     router.push("/mypage/mypage-edit");
@@ -25,6 +27,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     const userData = async () => {
+      setLoading(true);
       const { data, error } = await supabase
         .from("survey")
         .select("height, weight, purpose")
@@ -64,12 +67,18 @@ const MyProfile = () => {
       } else {
         console.log("유저 정보 저장 오류", error);
       }
+
+      setLoading(false);
     };
 
     if (user) {
       userData();
     }
   }, [user]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>

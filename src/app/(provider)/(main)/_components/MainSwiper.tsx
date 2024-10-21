@@ -6,9 +6,29 @@ import { slidesData } from "../_data/slidesData";
 import SwiperCore from "swiper";
 import { Autoplay } from "swiper/modules";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import Loading from "../../_components/Loading/Loading";
 
 const MainSwiper = () => {
   SwiperCore.use([Autoplay]);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSlides = async () => {
+      slidesData;
+      if (slidesData) {
+        setLoading(false);
+      }
+    };
+
+    fetchSlides();
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <Swiper
       className="text-white max-h-screen xl:!mx-0"
