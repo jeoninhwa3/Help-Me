@@ -8,6 +8,7 @@ import Image from "next/image";
 import carbohydrate from "@/assets/icons/icon_carbohydrate.svg";
 import protein from "@/assets/icons/icon_protein.svg";
 import fat from "@/assets/icons/icon_fat.svg";
+import MydietLoading from "./_components/MydietLoading";
 
 interface Meal {
   menu: string;
@@ -22,6 +23,7 @@ const MyDietPage = () => {
   const [lunch, setLunch] = useState<Meal[] | null>(null);
   const [dinner, setDinner] = useState<Meal[] | null>(null);
   const [totalCalories, setTotalCalories] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const getDietData = async () => {
     const { data: dietData, error } = await supabase
@@ -37,6 +39,7 @@ const MyDietPage = () => {
       setLunch(dietData?.lunch);
       setDinner(dietData?.dinner);
       setTotalCalories(dietData?.total_calorie);
+      setLoading(false);
     }
   };
 
@@ -45,6 +48,10 @@ const MyDietPage = () => {
       getDietData();
     }
   }, [user]);
+
+  if (loading) {
+    return <MydietLoading />;
+  }
 
   return (
     <div className="py-6 lg:py-10">

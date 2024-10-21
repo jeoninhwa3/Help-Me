@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
+import Loading from "@/app/(provider)/_components/Loading/Loading";
 
 const MyProfileEdit = () => {
   const supabase = createClient();
@@ -18,6 +19,7 @@ const MyProfileEdit = () => {
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [profileUrl, setProfileUrl] = useState<string>();
   const [previewUrl, setPreviewUrl] = useState<string>();
+  const [loading, setLoading] = useState(true);
 
   const validateNickname = (nickname: string) =>
     /^[a-zA-Z0-9가-힣]+$/.test(nickname) &&
@@ -130,12 +132,17 @@ const MyProfileEdit = () => {
         setProfileUrl(data.profile_url);
         setPreviewUrl(data.profile_url);
         setNickname(data.nickname);
+        setLoading(false);
       }
     };
     if (user) {
       getUserData();
     }
   }, [user]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>
