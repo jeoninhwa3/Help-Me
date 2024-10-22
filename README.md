@@ -23,8 +23,8 @@
 
 ### 2. 스와이퍼를 이용한 메인 페이지
 
-- 스와이퍼로 기능으로 여러 후기를 한 눈에 볼 수 있어요. <br/>
-  <img src="/public/images/ima_main.gif"/> <br/><br/>
+- 스와이퍼 기능으로 여러 후기를 한 눈에 볼 수 있어요. <br/>
+  <img src="/public/images/img_main.gif"/> <br/><br/>
 
 ### 3. AI API를 이용한 설문조사 페이지
 
@@ -40,8 +40,14 @@
 ### 5. supabase를 이용한 마이페이지
 
 - 내 정보를 변경 가능해요. <br/>
-- 내가 작성한 글만 확인 할 수 있어요. <br/><br/>
+- 내가 작성한 글만 확인 할 수 있어요. <br/>
+  <img src="/public/images/img_mypage.gif"/> <br/><br/>
 
 ### 6. supabase를 이용한 커뮤니티 페이지
 
-- 글 조회/작성/수정/삭제를 이용하여 사람들과 의견 공유가 가능해요. <br /><br/>
+- 글 조회/작성/수정/삭제를 이용하여 사람들과 의견 공유가 가능해요. <br/><br/>
+
+### 7. supabase를 이용한 커뮤니티 페이지
+
+- 모든 페이지는 반응형 디자인이 적용 되어 있어요. <br/>
+  <img src="/public/images/img_res.gif"/> <br/><br/>
