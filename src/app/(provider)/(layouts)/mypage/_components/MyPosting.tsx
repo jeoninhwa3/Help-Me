@@ -26,42 +26,6 @@ const MyPosting = () => {
           </p>
           <span className="mt-1 text-gray600 text-xs">2024.07.26</span>
         </li>
-        <li className="mt-6 xl:w-[240px]">
-          <Image
-            className="rounded-lg"
-            src={thumbnail}
-            alt="내이미지"
-            width={320}
-            height={192}
-          />
-          <span className="inline-block mt-4 text-primary600 text-sm font-semibold">
-            잡담
-          </span>
-          <p className="mt-2 text-gray900 font-semibold">다들 배 안고프세요?</p>
-          <p className="mt-1 text-gray800 text-sm">
-            원래 밥 많이 먹다가 추천해준대로 줄여서 먹다 보니 배가 너무
-            고프네요. 간식도 추천해주면 좋겠네요
-          </p>
-          <span className="mt-1 text-gray600 text-xs">2024.07.26</span>
-        </li>
-        <li className="mt-6 xl:w-[240px]">
-          <Image
-            className="rounded-lg"
-            src={thumbnail}
-            alt="내이미지"
-            width={320}
-            height={192}
-          />
-          <span className="inline-block mt-4 text-primary600 text-sm font-semibold">
-            잡담
-          </span>
-          <p className="mt-2 text-gray900 font-semibold">다들 배 안고프세요?</p>
-          <p className="mt-1 text-gray800 text-sm">
-            원래 밥 많이 먹다가 추천해준대로 줄여서 먹다 보니 배가 너무
-            고프네요. 간식도 추천해주면 좋겠네요
-          </p>
-          <span className="mt-1 text-gray600 text-xs">2024.07.26</span>
-        </li>
       </ul>
     </div>
   );
